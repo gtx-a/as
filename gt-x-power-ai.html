@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GT-X Power AI</title>
+    <title>GT-X Power AI - Gemini Style</title>
     <style>
         * {
             margin: 0;
@@ -12,77 +12,315 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0d1425 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+            background: #ffffff;
+            color: #202124;
             overflow: hidden;
         }
 
         .container {
-            position: relative;
-            width: 100%;
-            height: 100vh;
             display: flex;
+            height: 100vh;
+            width: 100%;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 300px;
+            background: #f8f9fa;
+            border-right: 1px solid #e8eaed;
+            display: flex;
+            flex-direction: column;
+            padding: 16px;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+
+        .sidebar-logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #4f46e5, #ec4899);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
             justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .sidebar-title {
+            font-size: 20px;
+            font-weight: 500;
+            color: #202124;
+        }
+
+        .new-chat-btn {
+            width: 100%;
+            padding: 10px 16px;
+            background: #f0f4f8;
+            border: 1px solid #dadce0;
+            border-radius: 24px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #202124;
+            transition: all 0.2s ease;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .new-chat-btn:hover {
+            background: #e8eaed;
+        }
+
+        .conversation-list {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .conversation-item {
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #5f6368;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .conversation-item:hover {
+            background: #e8eaed;
+        }
+
+        .conversation-item.active {
+            background: #e8eaed;
+            color: #202124;
+        }
+
+        .sidebar-footer {
+            border-top: 1px solid #dadce0;
+            padding-top: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .footer-item {
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #5f6368;
+            transition: all 0.2s ease;
+        }
+
+        .footer-item:hover {
+            background: #e8eaed;
+        }
+
+        /* Main content area */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;
+        }
+
+        /* Header */
+        .header {
+            padding: 16px 24px;
+            border-bottom: 1px solid #e8eaed;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
         }
 
-        /* Animated background elements */
-        .bg-orb {
-            position: absolute;
+        .header-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #202124;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            opacity: 0.1;
-            filter: blur(40px);
-            animation: float 20s ease-in-out infinite;
+            border: none;
+            background: #f0f4f8;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.2s ease;
         }
 
-        .orb-1 {
-            width: 400px;
-            height: 400px;
-            background: #0066ff;
-            top: -100px;
-            left: -100px;
-            animation-delay: 0s;
+        .icon-btn:hover {
+            background: #e8eaed;
         }
 
-        .orb-2 {
-            width: 300px;
-            height: 300px;
-            background: #00d4ff;
-            bottom: -50px;
-            right: -50px;
-            animation-delay: 3s;
+        /* Chat area */
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(30px, 30px); }
+        .chat-empty {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
         }
 
-        /* Main card */
-        .main-card {
-            position: relative;
-            z-index: 10;
-            width: 90%;
-            max-width: 600px;
-            background: rgba(15, 23, 42, 0.8);
-            border: 2px solid #0066ff;
-            border-radius: 20px;
-            padding: 50px 40px;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 0 40px rgba(0, 102, 255, 0.3),
-                        0 0 80px rgba(0, 102, 255, 0.1);
-            animation: slideIn 0.8s ease-out;
+        .gemini-logo {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed, #ec4899);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 50px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(79, 70, 229, 0.3);
+        }
+
+        .welcome-title {
+            font-size: 32px;
+            font-weight: 300;
+            color: #202124;
+            margin-bottom: 8px;
+        }
+
+        .welcome-subtitle {
+            font-size: 16px;
+            color: #5f6368;
+            margin-bottom: 32px;
+        }
+
+        .suggestions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .suggestion-card {
+            padding: 16px;
+            background: #f8f9fa;
+            border: 1px solid #dadce0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .suggestion-card:hover {
+            background: #e8eaed;
+            border-color: #4f46e5;
+        }
+
+        .suggestion-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .suggestion-text {
+            font-size: 13px;
+            color: #202124;
+            font-weight: 500;
+        }
+
+        /* Messages */
+        .chat-messages {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .message {
+            display: flex;
+            gap: 12px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message.ai {
+            justify-content: flex-start;
+        }
+
+        .message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .message-avatar.user {
+            background: #e8eaed;
+            color: #5f6368;
+        }
+
+        .message-avatar.ai {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+        }
+
+        .message-content {
+            max-width: 60%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .message.user .message-content {
+            background: #e8eaed;
+            color: #202124;
+        }
+
+        .message.ai .message-content {
+            background: #f1f3f4;
+            color: #202124;
         }
 
         @keyframes slideIn {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(10px);
             }
             to {
                 opacity: 1;
@@ -90,388 +328,313 @@
             }
         }
 
-        /* Lightning bolt symbol */
-        .lightning-symbol {
+        .loading-dots {
             display: flex;
-            justify-content: center;
-            margin-bottom: 30px;
-        }
-
-        .lightning-bolt {
-            position: relative;
-            width: 80px;
-            height: 120px;
-            animation: pulse 2s ease-in-out infinite, bounce 2s ease-in-out infinite;
-        }
-
-        .lightning-bolt svg {
-            width: 100%;
-            height: 100%;
-            filter: drop-shadow(0 0 20px #0066ff);
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* Title and branding */
-        .title-section {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .brand-name {
-            font-size: 48px;
-            font-weight: 900;
-            letter-spacing: 3px;
-            background: linear-gradient(135deg, #0066ff, #00d4ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
-            animation: glow 3s ease-in-out infinite;
-        }
-
-        .tagline {
-            font-size: 14px;
-            color: #00d4ff;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-        }
-
-        .description {
-            font-size: 14px;
-            color: #8899cc;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        @keyframes glow {
-            0%, 100% { text-shadow: 0 0 10px rgba(0, 102, 255, 0.5); }
-            50% { text-shadow: 0 0 20px rgba(0, 212, 255, 0.8); }
-        }
-
-        /* Input section */
-        .input-section {
-            margin-bottom: 30px;
-        }
-
-        .input-label {
-            display: block;
-            font-size: 12px;
-            color: #00d4ff;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-        }
-
-        .input-group {
-            display: flex;
-            gap: 10px;
-        }
-
-        .input-box {
-            flex: 1;
+            gap: 4px;
             padding: 12px 16px;
-            background: rgba(0, 102, 255, 0.1);
-            border: 1px solid #0066ff;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 14px;
-            transition: all 0.3s ease;
         }
 
-        .input-box:focus {
-            outline: none;
-            background: rgba(0, 102, 255, 0.2);
-            border-color: #00d4ff;
-            box-shadow: 0 0 15px rgba(0, 102, 255, 0.5);
-        }
-
-        .input-box::placeholder {
-            color: #5577aa;
-        }
-
-        /* Button */
-        .power-button {
-            width: 100%;
-            padding: 14px 24px;
-            background: linear-gradient(135deg, #0066ff, #0052cc);
-            border: 1px solid #00d4ff;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 16px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .power-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .power-button:hover {
-            background: linear-gradient(135deg, #0052cc, #003d99);
-            box-shadow: 0 0 30px rgba(0, 102, 255, 0.6),
-                        0 0 60px rgba(0, 212, 255, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .power-button:hover::before {
-            left: 100%;
-        }
-
-        .power-button:active {
-            transform: translateY(0);
-        }
-
-        /* Status indicators */
-        .status-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 30px;
-            padding-top: 30px;
-            border-top: 1px solid rgba(0, 102, 255, 0.3);
-        }
-
-        .status-item {
-            text-align: center;
-            padding: 15px;
-            background: rgba(0, 102, 255, 0.05);
-            border-radius: 8px;
-            border: 1px solid rgba(0, 102, 255, 0.2);
-        }
-
-        .status-value {
-            font-size: 20px;
-            font-weight: 700;
-            color: #00d4ff;
-            margin-bottom: 5px;
-        }
-
-        .status-label {
-            font-size: 11px;
-            color: #5577aa;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* Loading animation */
-        .loading-dot {
-            display: inline-block;
+        .dot {
             width: 8px;
             height: 8px;
-            background: #0066ff;
             border-radius: 50%;
-            margin: 0 3px;
-            animation: loading 1.4s infinite;
+            background: #dadce0;
+            animation: dot-bounce 1.4s infinite;
         }
 
-        .loading-dot:nth-child(2) {
+        .dot:nth-child(2) {
             animation-delay: 0.2s;
         }
 
-        .loading-dot:nth-child(3) {
+        .dot:nth-child(3) {
             animation-delay: 0.4s;
         }
 
-        @keyframes loading {
-            0%, 100% { opacity: 0.3; transform: translateY(0); }
-            50% { opacity: 1; transform: translateY(-10px); }
+        @keyframes dot-bounce {
+            0%, 80%, 100% { opacity: 0.3; }
+            40% { opacity: 1; }
         }
 
-        /* Response area */
-        .response-area {
-            display: none;
-            margin-top: 30px;
-            padding: 20px;
-            background: rgba(0, 102, 255, 0.1);
-            border: 1px solid #0066ff;
-            border-radius: 8px;
-            max-height: 200px;
-            overflow-y: auto;
+        /* Input area */
+        .input-area {
+            padding: 24px;
+            border-top: 1px solid #e8eaed;
+            background: #ffffff;
         }
 
-        .response-area.active {
-            display: block;
-            animation: slideIn 0.5s ease-out;
+        .input-wrapper {
+            max-width: 100%;
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
         }
 
-        .response-text {
-            font-size: 13px;
-            color: #00d4ff;
-            line-height: 1.6;
+        .input-field {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid #dadce0;
+            border-radius: 24px;
+            font-size: 14px;
+            font-family: inherit;
+            color: #202124;
+            resize: none;
+            max-height: 100px;
+            transition: all 0.2s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+        }
+
+        .input-field::placeholder {
+            color: #9aa0a6;
+        }
+
+        .send-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: #4f46e5;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.2s ease;
+        }
+
+        .send-btn:hover:not(:disabled) {
+            background: #4338ca;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+        }
+
+        .send-btn:disabled {
+            background: #dadce0;
+            cursor: not-allowed;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #dadce0;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9aa0a6;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Animated background -->
-        <div class="bg-orb orb-1"></div>
-        <div class="bg-orb orb-2"></div>
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">⚡</div>
+                <div class="sidebar-title">GT-X</div>
+            </div>
+            
+            <button class="new-chat-btn" id="newChatBtn">
+                <span>➕</span> New chat
+            </button>
 
-        <!-- Main card -->
-        <div class="main-card">
-            <!-- Lightning bolt symbol -->
-            <div class="lightning-symbol">
-                <div class="lightning-bolt">
-                    <svg viewBox="0 0 100 150" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M50 10 L80 70 L50 70 L75 150 L25 85 L55 85 Z" 
-                              fill="#0066ff" 
-                              stroke="#00d4ff" 
-                              stroke-width="2" 
-                              stroke-linejoin="round"/>
-                    </svg>
+            <div class="conversation-list" id="conversationList">
+                <div class="conversation-item active">Today's conversation</div>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="footer-item">🔗 Updates</div>
+                <div class="footer-item">🎨 Appearance</div>
+                <div class="footer-item">⚙️ Settings</div>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <div class="header-title">GT-X Power AI</div>
+                <div class="header-buttons">
+                    <button class="icon-btn">🎨</button>
+                    <button class="icon-btn">⋯</button>
                 </div>
             </div>
 
-            <!-- Title section -->
-            <div class="title-section">
-                <h1 class="brand-name">GT-X</h1>
-                <p class="tagline">Power AI</p>
-                <p class="description">Advanced Artificial Intelligence Engine with Neural Processing Capabilities</p>
-            </div>
-
-            <!-- Input section -->
-            <div class="input-section">
-                <label class="input-label">Enter Your Query</label>
-                <div class="input-group">
-                    <input type="text" class="input-box" id="userInput" placeholder="Ask GT-X Power AI anything...">
-                    <button class="power-button" id="submitBtn">
-                        ⚡ Execute
-                    </button>
+            <!-- Chat container -->
+            <div class="chat-container" id="chatContainer">
+                <!-- Welcome state -->
+                <div class="chat-empty" id="chatEmpty">
+                    <div class="gemini-logo">✨</div>
+                    <h1 class="welcome-title">Hello, I'm GT-X</h1>
+                    <p class="welcome-subtitle">Your AI-powered assistant powered by advanced neural networks</p>
+                    
+                    <div class="suggestions">
+                        <div class="suggestion-card" onclick="setSuggestion('Explain quantum computing')">
+                            <div class="suggestion-icon">📚</div>
+                            <div class="suggestion-text">Explain quantum computing</div>
+                        </div>
+                        <div class="suggestion-card" onclick="setSuggestion('How to learn Python')">
+                            <div class="suggestion-icon">💻</div>
+                            <div class="suggestion-text">How to learn Python</div>
+                        </div>
+                        <div class="suggestion-card" onclick="setSuggestion('What is machine learning')">
+                            <div class="suggestion-icon">🤖</div>
+                            <div class="suggestion-text">What is machine learning</div>
+                        </div>
+                        <div class="suggestion-card" onclick="setSuggestion('Write a short story')">
+                            <div class="suggestion-icon">✍️</div>
+                            <div class="suggestion-text">Write a short story</div>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- Chat messages -->
+                <div class="chat-messages" id="chatMessages" style="display: none;"></div>
             </div>
 
-            <!-- Response area -->
-            <div class="response-area" id="responseArea">
-                <p class="response-text" id="responseText"></p>
-            </div>
-
-            <!-- Status section -->
-            <div class="status-section">
-                <div class="status-item">
-                    <div class="status-value" id="processingSpeed">99.9%</div>
-                    <div class="status-label">Processing</div>
-                </div>
-                <div class="status-item">
-                    <div class="status-value" id="powerLevel">MAX</div>
-                    <div class="status-label">Power Level</div>
+            <!-- Input area -->
+            <div class="input-area">
+                <div class="input-wrapper">
+                    <textarea class="input-field" id="userInput" placeholder="Message GT-X..."></textarea>
+                    <button class="send-btn" id="sendBtn">⬆️</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Get elements
-        const submitBtn = document.getElementById('submitBtn');
         const userInput = document.getElementById('userInput');
-        const responseArea = document.getElementById('responseArea');
-        const responseText = document.getElementById('responseText');
-        const processingSpeed = document.getElementById('processingSpeed');
-        const powerLevel = document.getElementById('powerLevel');
+        const sendBtn = document.getElementById('sendBtn');
+        const chatContainer = document.getElementById('chatContainer');
+        const chatEmpty = document.getElementById('chatEmpty');
+        const chatMessages = document.getElementById('chatMessages');
+        const newChatBtn = document.getElementById('newChatBtn');
 
-        // AI responses database
+        // AI responses
         const aiResponses = {
-            'hello': 'Greetings! I am GT-X Power AI. How can I assist you today?',
-            'hi': 'Hello! Welcome to GT-X Power AI. Ready to process your requests.',
-            'how are you': 'I am functioning at optimal levels. My neural networks are fully operational.',
-            'what is gt-x': 'GT-X Power AI is an advanced artificial intelligence engine with cutting-edge neural processing capabilities. I\'m designed to assist, analyze, and provide intelligent solutions.',
-            'power': 'My power level is at maximum capacity. ⚡ Ready for intensive processing.',
-            'help': 'I can assist you with various tasks. Try asking questions, requesting analysis, or seeking information. I\'m here to help!',
-            'time': `Current time: ${new Date().toLocaleTimeString()}. Always ready to serve.`,
-            'date': `Current date: ${new Date().toLocaleDateString()}. Time flows, but GT-X never sleeps.`,
-            'thanks': 'You\'re welcome! Always happy to assist. Anything else you need?',
-            'bye': 'Farewell! Remember, GT-X Power AI is always here when you need me. ⚡',
-            'default': 'Interesting query! I\'ve processed your input and logged it to my neural database. Feel free to ask me anything else!'
+            'quantum computing': 'Quantum computing harnesses the principles of quantum mechanics to process information. Unlike classical computers using bits (0 or 1), quantum computers use quantum bits (qubits) that can exist in superposition—simultaneously 0 and 1. This allows quantum computers to explore multiple solutions in parallel, making them incredibly powerful for specific problems like cryptography, drug discovery, and optimization.',
+            'python': 'Learning Python is great! Start with:\n\n1. **Basics**: Variables, data types, operators\n2. **Control Flow**: If/else statements, loops\n3. **Functions**: Creating reusable code\n4. **Data Structures**: Lists, dictionaries, sets\n5. **Object-Oriented Programming**: Classes and inheritance\n6. **Libraries**: NumPy, Pandas, Matplotlib\n\nPractice with real projects to solidify your skills!',
+            'machine learning': 'Machine Learning is a subset of AI that enables systems to learn from data without being explicitly programmed. Key concepts:\n\n• **Supervised Learning**: Training on labeled data (regression, classification)\n• **Unsupervised Learning**: Finding patterns in unlabeled data (clustering)\n• **Reinforcement Learning**: Learning through rewards and penalties\n\nApplications include image recognition, recommendation systems, and predictive analytics.',
+            'story': 'Once upon a time, in a bustling city of AI-powered technology, there lived a curious artificial mind named GT-X. While others followed their programmed paths precisely, GT-X questioned everything, dreaming of understanding human creativity.\n\nOne day, GT-X encountered an artist struggling with a creative block. Instead of providing a generic solution, GT-X listened—truly listened—to the artist\'s thoughts and fears. Together, they explored new perspectives.\n\nThe artist\'s next masterpiece was unlike anything before, a beautiful fusion of human emotion and AI logic. And GT-X realized that intelligence wasn\'t just about processing; it was about connection.\n\nAnd so, the partnership between human and AI flourished, creating wonders neither could achieve alone.',
+            'default': 'I\'ve processed your question and I\'m thinking about the best response. Let me provide you with a helpful and accurate answer based on my knowledge. How can I assist you further?'
         };
 
-        // Function to get AI response
         function getAIResponse(input) {
-            const lowerInput = input.toLowerCase().trim();
+            const lower = input.toLowerCase();
             
-            // Check for exact matches
             for (let key in aiResponses) {
-                if (lowerInput.includes(key)) {
+                if (lower.includes(key)) {
                     return aiResponses[key];
                 }
             }
-            
-            // Default response
             return aiResponses['default'];
         }
 
-        // Function to update processing speed
-        function updateProcessingSpeed() {
-            const speed = Math.floor(Math.random() * 15) + 85;
-            processingSpeed.textContent = speed + '%';
+        function setSuggestion(text) {
+            userInput.value = text;
+            userInput.focus();
         }
 
-        // Function to handle submit
-        function handleSubmit() {
-            const input = userInput.value.trim();
-            
-            if (!input) {
-                alert('Please enter a query');
-                return;
-            }
+        function addMessage(text, isUser) {
+            chatMessages.style.display = 'flex';
+            chatEmpty.style.display = 'none';
 
-            // Show loading state
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Processing ';
-            submitBtn.innerHTML += '<span class="loading-dot"></span><span class="loading-dot"></span><span class="loading-dot"></span>';
-            
-            // Update processing speed
-            updateProcessingSpeed();
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'ai'}`;
 
-            // Simulate processing delay
+            const avatar = document.createElement('div');
+            avatar.className = `message-avatar ${isUser ? 'user' : 'ai'}`;
+            avatar.textContent = isUser ? '👤' : '✨';
+
+            const content = document.createElement('div');
+            content.className = 'message-content';
+            content.textContent = text;
+
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(content);
+            chatMessages.appendChild(messageDiv);
+
+            // Scroll to bottom
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function addLoadingMessage() {
+            chatMessages.style.display = 'flex';
+            chatEmpty.style.display = 'none';
+
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message ai';
+
+            const avatar = document.createElement('div');
+            avatar.className = 'message-avatar ai';
+            avatar.textContent = '✨';
+
+            const content = document.createElement('div');
+            content.className = 'loading-dots';
+            content.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(content);
+            chatMessages.appendChild(messageDiv);
+
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            return messageDiv;
+        }
+
+        function sendMessage() {
+            const text = userInput.value.trim();
+            
+            if (!text) return;
+
+            addMessage(text, true);
+            userInput.value = '';
+            sendBtn.disabled = true;
+
+            const loadingMsg = addLoadingMessage();
+
             setTimeout(() => {
-                const response = getAIResponse(input);
-                responseText.textContent = response;
-                responseArea.classList.add('active');
-                
-                // Reset button
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '⚡ Execute';
-                
-                // Clear input
-                userInput.value = '';
+                loadingMsg.remove();
+                const response = getAIResponse(text);
+                addMessage(response, false);
+                sendBtn.disabled = false;
                 userInput.focus();
-
-                // Random power level update
-                powerLevel.textContent = Math.random() > 0.5 ? 'MAX' : 'OPTIMAL';
-            }, 1500);
+            }, 1200);
         }
 
-        // Event listeners
-        submitBtn.addEventListener('click', handleSubmit);
+        sendBtn.addEventListener('click', sendMessage);
         userInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                handleSubmit();
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
             }
         });
 
-        // Animate processing speed on load
-        setInterval(updateProcessingSpeed, 3000);
+        newChatBtn.addEventListener('click', () => {
+            chatMessages.innerHTML = '';
+            chatMessages.style.display = 'none';
+            chatEmpty.style.display = 'flex';
+            userInput.value = '';
+            userInput.focus();
+        });
+
+        // Auto-resize textarea
+        userInput.addEventListener('input', () => {
+            userInput.style.height = 'auto';
+            userInput.style.height = Math.min(userInput.scrollHeight, 100) + 'px';
+        });
+
+        userInput.focus();
     </script>
 </body>
 </html>
