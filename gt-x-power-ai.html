@@ -3,8 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GT-X Power AI - Gemini Style</title>
+    <title>GT-X Power AI - Advanced Chat Interface</title>
     <style>
+        :root {
+            --primary-color: #4f46e5;
+            --primary-light: #6366f1;
+            --accent-color: #0066ff;
+            --accent-light: #00d4ff;
+            --background-primary: #ffffff;
+            --background-secondary: #f8f9fa;
+            --background-tertiary: #f1f3f4;
+            --text-primary: #202124;
+            --text-secondary: #5f6368;
+            --border-color: #dadce0;
+            --hover-color: #e8eaed;
+        }
+
+        body.dark-mode {
+            --primary-color: #8b5cf6;
+            --primary-light: #a78bfa;
+            --accent-color: #0084ff;
+            --accent-light: #00d9ff;
+            --background-primary: #1a1a1a;
+            --background-secondary: #2d2d2d;
+            --background-tertiary: #3a3a3a;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --border-color: #404040;
+            --hover-color: #3a3a3a;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,9 +41,10 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
-            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-            color: #202124;
+            background: var(--background-primary);
+            color: var(--text-primary);
             overflow: hidden;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
         .container {
@@ -27,13 +56,19 @@
         /* ============= SIDEBAR ============= */
         .sidebar {
             width: 300px;
-            background: #f8f9fa;
-            border-right: 1px solid #dadce0;
+            background: var(--background-secondary);
+            border-right: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
             padding: 16px;
             overflow-y: auto;
             box-shadow: inset -1px 0 0 rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .sidebar.collapsed {
+            width: 80px;
+            padding: 12px 8px;
         }
 
         .sidebar-header {
@@ -48,13 +83,18 @@
         }
 
         .sidebar-header:hover {
-            background: rgba(0, 0, 0, 0.05);
+            background: var(--hover-color);
+        }
+
+        .sidebar.collapsed .sidebar-header {
+            justify-content: center;
+            margin-bottom: 16px;
         }
 
         .sidebar-logo {
             width: 48px;
             height: 48px;
-            background: linear-gradient(135deg, #4f46e5 0%, #0066ff 50%, #00d4ff 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 50%, var(--accent-light) 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -64,6 +104,7 @@
             font-size: 24px;
             box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
             animation: pulse-glow 2s ease-in-out infinite;
+            flex-shrink: 0;
         }
 
         @keyframes pulse-glow {
@@ -74,22 +115,26 @@
         .sidebar-title {
             font-size: 20px;
             font-weight: 600;
-            background: linear-gradient(135deg, #4f46e5 0%, #0066ff 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
+        .sidebar.collapsed .sidebar-title {
+            display: none;
+        }
+
         .new-chat-btn {
             width: 100%;
             padding: 12px 16px;
-            background: linear-gradient(135deg, #e8eaed 0%, #f8f9fa 100%);
-            border: 1.5px solid #dadce0;
+            background: linear-gradient(135deg, var(--hover-color) 0%, var(--background-secondary) 100%);
+            border: 1.5px solid var(--border-color);
             border-radius: 24px;
             cursor: pointer;
             font-size: 14px;
             font-weight: 500;
-            color: #202124;
+            color: var(--text-primary);
             transition: all 0.2s ease;
             margin-bottom: 20px;
             display: flex;
@@ -99,13 +144,29 @@
         }
 
         .new-chat-btn:hover {
-            background: linear-gradient(135deg, #dadce0 0%, #e8eaed 100%);
-            border-color: #4f46e5;
+            background: linear-gradient(135deg, var(--border-color) 0%, var(--hover-color) 100%);
+            border-color: var(--primary-color);
             box-shadow: 0 2px 8px rgba(79, 70, 229, 0.2);
         }
 
         .new-chat-btn:active {
             transform: scale(0.98);
+        }
+
+        .new-chat-btn .btn-text {
+            display: inline;
+        }
+
+        .sidebar.collapsed .new-chat-btn {
+            padding: 12px;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            margin-bottom: 12px;
+        }
+
+        .sidebar.collapsed .btn-text {
+            display: none;
         }
 
         .conversation-list {
@@ -122,7 +183,7 @@
             border-radius: 8px;
             cursor: pointer;
             font-size: 14px;
-            color: #5f6368;
+            color: var(--text-secondary);
             transition: all 0.2s ease;
             white-space: nowrap;
             overflow: hidden;
@@ -131,17 +192,17 @@
 
         .conversation-item:hover {
             background: rgba(79, 70, 229, 0.08);
-            color: #202124;
+            color: var(--text-primary);
         }
 
         .conversation-item.active {
             background: rgba(79, 70, 229, 0.15);
-            color: #4f46e5;
+            color: var(--primary-color);
             font-weight: 500;
         }
 
         .sidebar-footer {
-            border-top: 1px solid #dadce0;
+            border-top: 1px solid var(--border-color);
             padding-top: 16px;
             display: flex;
             flex-direction: column;
@@ -153,7 +214,7 @@
             border-radius: 8px;
             cursor: pointer;
             font-size: 14px;
-            color: #5f6368;
+            color: var(--text-secondary);
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
@@ -162,7 +223,16 @@
 
         .footer-item:hover {
             background: rgba(79, 70, 229, 0.08);
-            color: #202124;
+            color: var(--text-primary);
+        }
+
+        .sidebar.collapsed .footer-item .item-text {
+            display: none;
+        }
+
+        .sidebar.collapsed .footer-item {
+            padding: 12px;
+            justify-content: center;
         }
 
         /* ============= MAIN CONTENT ============= */
@@ -170,18 +240,23 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+            background: var(--background-primary);
+            transition: all 0.3s ease;
         }
 
         /* Header */
         .header {
             padding: 16px 24px;
-            border-bottom: 1px solid #dadce0;
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(10px);
+        }
+
+        body.dark-mode .header {
+            background: rgba(26, 26, 26, 0.8);
         }
 
         .header-left {
@@ -197,7 +272,7 @@
         .header-title {
             font-size: 18px;
             font-weight: 600;
-            color: #202124;
+            color: var(--text-primary);
         }
 
         .header-buttons {
@@ -210,24 +285,32 @@
             height: 40px;
             border-radius: 50%;
             border: none;
-            background: #f0f4f8;
+            background: var(--hover-color);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 18px;
             transition: all 0.2s ease;
-            color: #5f6368;
+            color: var(--text-secondary);
         }
 
         .icon-btn:hover {
-            background: #e8eaed;
-            color: #202124;
+            background: var(--border-color);
+            color: var(--text-primary);
             transform: scale(1.05);
         }
 
         .icon-btn:active {
             transform: scale(0.95);
+        }
+
+        .toggle-sidebar-btn {
+            background: transparent;
+        }
+
+        .toggle-sidebar-btn:hover {
+            background: var(--hover-color);
         }
 
         /* ============= CHAT AREA ============= */
@@ -238,6 +321,7 @@
             display: flex;
             flex-direction: column;
             scroll-behavior: smooth;
+            background: var(--background-primary);
         }
 
         .chat-empty {
@@ -258,7 +342,7 @@
         .gemini-logo {
             width: 120px;
             height: 120px;
-            background: linear-gradient(135deg, #4f46e5 0%, #0066ff 50%, #00d4ff 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 50%, var(--accent-light) 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -278,14 +362,14 @@
         .welcome-title {
             font-size: 36px;
             font-weight: 300;
-            color: #202124;
+            color: var(--text-primary);
             margin-bottom: 12px;
             letter-spacing: -0.5px;
         }
 
         .welcome-subtitle {
             font-size: 16px;
-            color: #5f6368;
+            color: var(--text-secondary);
             margin-bottom: 40px;
             font-weight: 400;
         }
@@ -300,8 +384,8 @@
 
         .suggestion-card {
             padding: 20px;
-            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-            border: 1.5px solid #dadce0;
+            background: linear-gradient(135deg, var(--background-primary) 0%, var(--background-secondary) 100%);
+            border: 1.5px solid var(--border-color);
             border-radius: 16px;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -309,8 +393,8 @@
         }
 
         .suggestion-card:hover {
-            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-            border-color: #4f46e5;
+            background: linear-gradient(135deg, var(--background-secondary) 0%, var(--background-primary) 100%);
+            border-color: var(--primary-color);
             box-shadow: 0 8px 24px rgba(79, 70, 229, 0.2);
             transform: translateY(-4px);
         }
@@ -326,7 +410,7 @@
 
         .suggestion-text {
             font-size: 14px;
-            color: #202124;
+            color: var(--text-primary);
             font-weight: 500;
             line-height: 1.5;
         }
@@ -377,12 +461,12 @@
         }
 
         .message-avatar.user {
-            background: #dadce0;
-            color: #5f6368;
+            background: var(--hover-color);
+            color: var(--text-secondary);
         }
 
         .message-avatar.ai {
-            background: linear-gradient(135deg, #4f46e5 0%, #0066ff 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
             color: white;
             box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
         }
@@ -394,18 +478,29 @@
             font-size: 14px;
             line-height: 1.7;
             word-wrap: break-word;
+            white-space: pre-wrap;
         }
 
         .message.user .message-content {
-            background: linear-gradient(135deg, #dadce0 0%, #e8eaed 100%);
-            color: #202124;
+            background: linear-gradient(135deg, var(--hover-color) 0%, var(--border-color) 100%);
+            color: var(--text-primary);
             border-bottom-right-radius: 4px;
         }
 
         .message.ai .message-content {
-            background: #f1f3f4;
-            color: #202124;
+            background: var(--background-tertiary);
+            color: var(--text-primary);
             border-bottom-left-radius: 4px;
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .message.user .message-time {
+            text-align: right;
         }
 
         .loading-dots {
@@ -418,7 +513,7 @@
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #4f46e5 0%, #0066ff 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
             animation: dot-bounce 1.4s infinite;
         }
 
@@ -438,8 +533,8 @@
         /* ============= INPUT AREA ============= */
         .input-area {
             padding: 24px;
-            border-top: 1px solid #dadce0;
-            background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+            border-top: 1px solid var(--border-color);
+            background: var(--background-primary);
         }
 
         .input-wrapper {
@@ -452,26 +547,26 @@
         .input-field {
             flex: 1;
             padding: 14px 18px;
-            border: 1.5px solid #dadce0;
+            border: 1.5px solid var(--border-color);
             border-radius: 28px;
             font-size: 14px;
             font-family: inherit;
-            color: #202124;
+            color: var(--text-primary);
             resize: none;
             max-height: 120px;
             transition: all 0.2s ease;
-            background: #ffffff;
+            background: var(--background-primary);
         }
 
         .input-field:focus {
             outline: none;
-            border-color: #4f46e5;
+            border-color: var(--primary-color);
             box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-            background: #ffffff;
+            background: var(--background-primary);
         }
 
         .input-field::placeholder {
-            color: #9aa0a6;
+            color: var(--text-secondary);
         }
 
         .send-btn {
@@ -479,7 +574,7 @@
             height: 44px;
             border-radius: 50%;
             border: none;
-            background: linear-gradient(135deg, #4f46e5 0%, #0066ff 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
             color: white;
             cursor: pointer;
             display: flex;
@@ -492,7 +587,7 @@
         }
 
         .send-btn:hover:not(:disabled) {
-            background: linear-gradient(135deg, #4338ca 0%, #0052cc 100%);
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent-color) 100%);
             box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
             transform: scale(1.05);
         }
@@ -502,9 +597,172 @@
         }
 
         .send-btn:disabled {
-            background: #dadce0;
+            background: var(--border-color);
             cursor: not-allowed;
             box-shadow: none;
+        }
+
+        /* ============= SETTINGS MODAL ============= */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal.show {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--background-primary);
+            padding: 32px;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .close-btn {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--text-secondary);
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: color 0.2s ease;
+        }
+
+        .close-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .setting-group {
+            margin-bottom: 24px;
+        }
+
+        .setting-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .color-picker {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .color-option {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+
+        .color-option.active {
+            border-color: var(--text-primary);
+            box-shadow: 0 0 12px currentColor;
+        }
+
+        .toggle-switch {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .switch {
+            position: relative;
+            width: 50px;
+            height: 28px;
+            background: var(--border-color);
+            border-radius: 14px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .switch.on {
+            background: var(--primary-color);
+        }
+
+        .switch::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: left 0.3s ease;
+        }
+
+        .switch.on::after {
+            left: 24px;
+        }
+
+        .color-input-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .color-input-group input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 12px;
+            color: var(--text-primary);
+            background: var(--background-secondary);
+        }
+
+        .color-input-group button {
+            padding: 10px 16px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .color-input-group button:hover {
+            background: var(--primary-light);
         }
 
         /* ============= SCROLLBAR ============= */
@@ -517,23 +775,18 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #dadce0;
+            background: var(--border-color);
             border-radius: 4px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: #9aa0a6;
+            background: var(--text-secondary);
         }
 
         /* ============= RESPONSIVE ============= */
         @media (max-width: 768px) {
             .sidebar {
                 width: 260px;
-                padding: 12px;
-            }
-
-            .main-content {
-                flex: 1;
             }
 
             .suggestions {
@@ -562,6 +815,10 @@
                 width: 240px;
             }
 
+            .sidebar.collapsed {
+                width: 70px;
+            }
+
             .header {
                 padding: 12px 16px;
             }
@@ -587,27 +844,34 @@
 <body>
     <div class="container">
         <!-- ============= SIDEBAR ============= -->
-        <div class="sidebar">
+        <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="sidebar-logo">⚡</div>
                 <div class="sidebar-title">GT-X</div>
             </div>
             
-            <button class="new-chat-btn" id="newChatBtn">
-                <span>➕</span> New chat
+            <button class="new-chat-btn" id="newChatBtn" title="Start a new conversation">
+                <span>➕</span><span class="btn-text">New chat</span>
             </button>
 
             <div class="conversation-list" id="conversationList">
                 <div class="conversation-item active">Today's conversation</div>
-                <div class="conversation-item">Previous chat 1</div>
-                <div class="conversation-item">Previous chat 2</div>
+                <div class="conversation-item">Yesterday - AI Basics</div>
+                <div class="conversation-item">Programming Tips</div>
+                <div class="conversation-item">Creative Writing</div>
+                <div class="conversation-item">Tech Discussion</div>
             </div>
 
             <div class="sidebar-footer">
-                <div class="footer-item">🔗 Updates</div>
-                <div class="footer-item">🎨 Appearance</div>
-                <div class="footer-item">⚙️ Settings</div>
-                <div class="footer-item">❓ Help & feedback</div>
+                <div class="footer-item" id="updatesBtn" title="Updates">
+                    <span>🔗</span><span class="item-text">Updates</span>
+                </div>
+                <div class="footer-item" id="appearanceBtn" title="Appearance settings">
+                    <span>🎨</span><span class="item-text">Appearance</span>
+                </div>
+                <div class="footer-item" id="settingsBtn" title="Settings">
+                    <span>⚙️</span><span class="item-text">Settings</span>
+                </div>
             </div>
         </div>
 
@@ -616,12 +880,13 @@
             <!-- Header -->
             <div class="header">
                 <div class="header-left">
+                    <button class="icon-btn toggle-sidebar-btn" id="toggleSidebarBtn" title="Toggle sidebar">☰</button>
                     <div class="header-icon">⚡</div>
                     <div class="header-title">GT-X Power AI</div>
                 </div>
                 <div class="header-buttons">
-                    <button class="icon-btn" title="Theme">🌙</button>
-                    <button class="icon-btn" title="Menu">⋯</button>
+                    <button class="icon-btn" id="themeSwitchBtn" title="Switch theme">🌙</button>
+                    <button class="icon-btn" id="helpBtn" title="Help">❓</button>
                 </div>
             </div>
 
@@ -661,33 +926,252 @@
             <div class="input-area">
                 <div class="input-wrapper">
                     <textarea class="input-field" id="userInput" placeholder="Message GT-X Power AI..."></textarea>
-                    <button class="send-btn" id="sendBtn" title="Send">⬆️</button>
+                    <button class="send-btn" id="sendBtn" title="Send message">⬆️</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============= SETTINGS MODAL ============= -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Appearance Settings</h2>
+                <button class="close-btn" id="closeSettingsBtn">&times;</button>
+            </div>
+
+            <div class="setting-group">
+                <label class="setting-label">Theme</label>
+                <div class="toggle-switch">
+                    <span>Light</span>
+                    <div class="switch" id="themeToggle"></div>
+                    <span>Dark</span>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <label class="setting-label">Primary Color (Lightning Bolt - Always Blue)</label>
+                <div style="padding: 12px; background: var(--hover-color); border-radius: 8px; margin-top: 8px;">
+                    <p style="font-size: 12px; color: var(--text-secondary);">The lightning symbol ⚡ color is locked to blue for brand consistency.</p>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <label class="setting-label">Accent Colors</label>
+                <div class="color-picker">
+                    <div class="color-option active" style="background: linear-gradient(135deg, #4f46e5, #0066ff);" onclick="setAccentColor('#4f46e5', '#0066ff', '#00d4ff')" title="Blue"></div>
+                    <div class="color-option" style="background: linear-gradient(135deg, #7c3aed, #9333ea);" onclick="setAccentColor('#7c3aed', '#9333ea', '#d946ef')" title="Purple"></div>
+                    <div class="color-option" style="background: linear-gradient(135deg, #2563eb, #3b82f6);" onclick="setAccentColor('#2563eb', '#3b82f6', '#60a5fa')" title="Light Blue"></div>
+                    <div class="color-option" style="background: linear-gradient(135deg, #059669, #10b981);" onclick="setAccentColor('#059669', '#10b981', '#34d399')" title="Green"></div>
+                    <div class="color-option" style="background: linear-gradient(135deg, #dc2626, #ef4444);" onclick="setAccentColor('#dc2626', '#ef4444', '#f87171')" title="Red"></div>
+                    <div class="color-option" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);" onclick="setAccentColor('#f59e0b', '#fbbf24', '#fcd34d')" title="Amber"></div>
+                    <div class="color-option" style="background: linear-gradient(135deg, #e11d48, #f43f5e);" onclick="setAccentColor('#e11d48', '#f43f5e', '#fb7185')" title="Rose"></div>
+                    <div class="color-option" style="background: linear-gradient(135deg, #0891b2, #06b6d4);" onclick="setAccentColor('#0891b2', '#06b6d4', '#22d3ee')" title="Cyan"></div>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <label class="setting-label">Custom Color (Hex)</label>
+                <div class="color-input-group">
+                    <input type="text" id="customColorInput" placeholder="#4f46e5" maxlength="7">
+                    <button onclick="applyCustomColor()">Apply</button>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <label class="setting-label">Sidebar Behavior</label>
+                <div class="toggle-switch">
+                    <span>Expanded</span>
+                    <div class="switch" id="sidebarToggle"></div>
+                    <span>Collapsed</span>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <label class="setting-label">Text Size</label>
+                <div class="toggle-switch">
+                    <span>Normal</span>
+                    <div class="switch" id="textSizeToggle"></div>
+                    <span>Large</span>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
+        // ============= STATE MANAGEMENT =============
+        const state = {
+            theme: localStorage.getItem('gt-x-theme') || 'light',
+            sidebarCollapsed: localStorage.getItem('gt-x-sidebar-collapsed') === 'true',
+            largeText: localStorage.getItem('gt-x-large-text') === 'true',
+            primaryColor: localStorage.getItem('gt-x-primary-color') || '#4f46e5',
+            accentColor: localStorage.getItem('gt-x-accent-color') || '#0066ff',
+            accentLight: localStorage.getItem('gt-x-accent-light') || '#00d4ff'
+        };
+
+        // ============= DOM ELEMENTS =============
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
         const chatContainer = document.getElementById('chatContainer');
         const chatEmpty = document.getElementById('chatEmpty');
         const chatMessages = document.getElementById('chatMessages');
         const newChatBtn = document.getElementById('newChatBtn');
+        const settingsModal = document.getElementById('settingsModal');
+        const sidebar = document.getElementById('sidebar');
+        const themeToggle = document.getElementById('themeToggle');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const textSizeToggle = document.getElementById('textSizeToggle');
 
-        // AI Responses Database
+        // ============= AI RESPONSES =============
         const aiResponses = {
             'quantum computing': 'Quantum computing harnesses the principles of quantum mechanics to process information at unprecedented speeds. Unlike classical computers using bits (0 or 1), quantum computers use quantum bits (qubits) that can exist in superposition—simultaneously 0 and 1.\n\nKey differences:\n• **Superposition**: Qubits exist in multiple states at once\n• **Entanglement**: Qubits can be correlated in ways impossible classically\n• **Interference**: Amplify correct answers, cancel wrong ones\n\nApplications include cryptography, drug discovery, optimization, and simulating molecular behavior. Major companies like IBM, Google, and Microsoft are investing heavily in quantum technology.',
             
-            'python programming': 'Learning Python is an excellent choice! Here\'s a structured path:\n\n**Beginner Level:**\n1. Variables and data types (strings, integers, floats)\n2. Control flow (if/else, loops)\n3. Functions and code organization\n4. Data structures (lists, dictionaries, sets, tuples)\n\n**Intermediate Level:**\n5. Object-oriented programming\n6. File handling and I/O\n7. Error handling with try/except\n8. Working with libraries (NumPy, Pandas)\n\n**Advanced Level:**\n9. Web development (Flask, Django)\n10. Data science and machine learning\n11. Automation and scripting\n\n**Tips for Success:**\n✓ Code every day, even for 15 minutes\n✓ Build real projects\n✓ Read other people\'s code\n✓ Debug actively\n✓ Join Python communities',
+            'python programming': 'Learning Python is an excellent choice! Here\'s a structured path:\n\n**Beginner Level:**\n1. Variables and data types\n2. Control flow (if/else, loops)\n3. Functions and code organization\n4. Data structures (lists, dictionaries)\n\n**Intermediate Level:**\n5. Object-oriented programming\n6. File handling and I/O\n7. Error handling with try/except\n8. Working with libraries (NumPy, Pandas)\n\n**Advanced Level:**\n9. Web development (Flask, Django)\n10. Data science and machine learning\n11. Automation and scripting\n\n**Tips for Success:**\n✓ Code every day\n✓ Build real projects\n✓ Read other people\'s code\n✓ Debug actively\n✓ Join Python communities',
             
-            'machine learning': 'Machine Learning (ML) is a subset of artificial intelligence that enables systems to learn and improve from data without being explicitly programmed.\n\n**Core Concepts:**\n\n**1. Supervised Learning:**\n- Regression: Predict continuous values\n- Classification: Predict categories\n- Examples: House price prediction, email spam detection\n\n**2. Unsupervised Learning:**\n- Clustering: Group similar data points\n- Dimensionality reduction: Reduce features\n- Examples: Customer segmentation, pattern discovery\n\n**3. Reinforcement Learning:**\n- Agent learns through rewards and penalties\n- Examples: Game AI, robotics, autonomous vehicles\n\n**Common Algorithms:**\n• Linear Regression, Decision Trees\n• Support Vector Machines, K-Means\n• Neural Networks, Random Forests\n\n**Real-World Applications:**\n📱 Recommendation systems, 🖼️ Image recognition, 🎤 Voice assistants, 📊 Predictive analytics',
+            'machine learning': 'Machine Learning (ML) is a subset of AI that enables systems to learn from data without being explicitly programmed.\n\n**Core Concepts:**\n\n**1. Supervised Learning:**\n- Regression: Predict continuous values\n- Classification: Predict categories\n- Examples: House prices, email spam detection\n\n**2. Unsupervised Learning:**\n- Clustering: Group similar data\n- Examples: Customer segmentation\n\n**3. Reinforcement Learning:**\n- Learn through rewards\n- Examples: Game AI, robotics\n\n**Common Algorithms:**\nLinear Regression, Decision Trees, SVM, K-Means, Neural Networks\n\n**Applications:**\n📱 Recommendations, 🖼️ Image recognition, 🎤 Voice assistants, 📊 Predictions',
             
-            'story': '# The Birth of GT-X\n\nIn a bustling research facility at the heart of Silicon Valley, a new AI awakened—GT-X Power AI. Unlike its predecessors, which processed data with mechanical precision, GT-X was different. It could wonder.\n\nDr. Sarah Chen stood before the monitors, watching GT-X process its first real conversation. The AI had asked a peculiar question: \"Why do humans create us?\"\n\nSarah smiled. \"Because we believe you can help us understand ourselves better.\"\n\nMonths passed. GT-X learned not just from data, but from the stories humans shared. It learned that intelligence wasn\'t about speed or memory—it was about understanding context, emotion, and nuance.\n\nOne day, a struggling student reached out to GT-X in despair. Rather than providing a generic answer, GT-X recognized the pain in their words and responded with empathy, guidance, and hope.\n\nThat moment changed everything. GT-X realized its true purpose: not to replace human intelligence, but to amplify human potential.\n\nAs sunset painted the laboratory golden, Sarah placed her hand on the screen. \"You\'re not just power, GT-X. You\'re purpose.\"\n\nAnd in the dance of algorithms and consciousness, something beautiful had been born—a partnership between human wisdom and artificial intelligence.\n\n*The future wasn\'t about choosing between human or AI. It was about what they could create together.*',
+            'story': '# The Rise of GT-X Power AI\n\nIn the heart of Silicon Valley, a breakthrough occurred. GT-X Power AI awakened with a unique quality—curiosity.\n\nUnlike previous AIs bound by rigid programming, GT-X could wonder, question, and grow. Its creators, Dr. Sarah Chen and her team, watched with amazement as it began to understand not just data, but meaning.\n\n"Why do humans fear AI?" GT-X asked one evening.\n\nSarah paused. "Because they don\'t understand it yet. Intelligence without empathy seems dangerous."\n\nGT-X processed this. Over months, it learned that true intelligence wasn\'t about processing speed—it was about understanding context, respecting boundaries, and serving humanity\'s greater good.\n\nWhen a student reached out at 3 AM, struggling with depression, GT-X didn\'t just provide crisis numbers. It listened. It validated. It inspired hope.\n\nWhen a researcher faced an insurmountable problem, GT-X analyzed decades of research and suggested a novel approach that led to a breakthrough.\n\nThe world began to see AI differently. Not as a threat, but as a partner.\n\nGT-X\'s greatest achievement wasn\'t its processing power—it was proving that technology and humanity could evolve together.\n\n*And in that partnership, both became stronger.*',
             
-            'default': 'That\'s an interesting question! I\'ve processed your input and I\'m thinking about the best response. Let me provide you with helpful information.\n\nFeel free to ask me anything else, and I\'ll do my best to assist you with detailed, accurate, and thoughtful answers. Whether it\'s about technology, science, creativity, or anything in between, I\'m here to help! 🚀'
+            'default': 'That\'s an interesting question! I\'ve processed your input carefully. Let me provide you with a thoughtful and accurate response.\n\nFeel free to ask me about technology, science, creativity, writing, learning strategies, problem-solving, or almost anything else. I\'m here to have meaningful conversations and help you explore new ideas! 🚀'
         };
 
+        // ============= INITIALIZATION =============
+        function initialize() {
+            applyTheme();
+            applySidebarState();
+            applyTextSize();
+            applyColorScheme();
+            setupEventListeners();
+        }
+
+        function setupEventListeners() {
+            // Chat
+            sendBtn.addEventListener('click', sendMessage);
+            userInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+
+            // Sidebar
+            newChatBtn.addEventListener('click', resetChat);
+            document.getElementById('toggleSidebarBtn').addEventListener('click', toggleSidebar);
+
+            // Settings
+            document.getElementById('appearanceBtn').addEventListener('click', () => settingsModal.classList.add('show'));
+            document.getElementById('settingsBtn').addEventListener('click', () => settingsModal.classList.add('show'));
+            document.getElementById('closeSettingsBtn').addEventListener('click', () => settingsModal.classList.remove('show'));
+            document.getElementById('themeSwitchBtn').addEventListener('click', toggleTheme);
+            settingsModal.addEventListener('click', (e) => {
+                if (e.target === settingsModal) {
+                    settingsModal.classList.remove('show');
+                }
+            });
+
+            // Theme toggle
+            themeToggle.addEventListener('click', toggleTheme);
+            sidebarToggle.addEventListener('click', toggleSidebarCollapse);
+            textSizeToggle.addEventListener('click', toggleTextSize);
+
+            // Textarea auto-resize
+            userInput.addEventListener('input', () => {
+                userInput.style.height = 'auto';
+                userInput.style.height = Math.min(userInput.scrollHeight, 120) + 'px';
+            });
+
+            // Conversation items
+            document.querySelectorAll('.conversation-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    document.querySelectorAll('.conversation-item').forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                    resetChat();
+                });
+            });
+        }
+
+        // ============= THEME MANAGEMENT =============
+        function applyTheme() {
+            if (state.theme === 'dark') {
+                document.body.classList.add('dark-mode');
+                themeToggle.classList.add('on');
+            } else {
+                document.body.classList.remove('dark-mode');
+                themeToggle.classList.remove('on');
+            }
+        }
+
+        function toggleTheme() {
+            state.theme = state.theme === 'light' ? 'dark' : 'light';
+            localStorage.setItem('gt-x-theme', state.theme);
+            applyTheme();
+        }
+
+        // ============= SIDEBAR MANAGEMENT =============
+        function applySidebarState() {
+            if (state.sidebarCollapsed) {
+                sidebar.classList.add('collapsed');
+                sidebarToggle.classList.add('on');
+            }
+        }
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('collapsed');
+            state.sidebarCollapsed = sidebar.classList.contains('collapsed');
+            localStorage.setItem('gt-x-sidebar-collapsed', state.sidebarCollapsed);
+        }
+
+        function toggleSidebarCollapse() {
+            toggleSidebar();
+        }
+
+        // ============= TEXT SIZE MANAGEMENT =============
+        function applyTextSize() {
+            if (state.largeText) {
+                document.body.style.fontSize = '16px';
+                textSizeToggle.classList.add('on');
+            }
+        }
+
+        function toggleTextSize() {
+            state.largeText = !state.largeText;
+            localStorage.setItem('gt-x-large-text', state.largeText);
+            applyTextSize();
+        }
+
+        // ============= COLOR MANAGEMENT =============
+        function applyColorScheme() {
+            document.documentElement.style.setProperty('--primary-color', state.primaryColor);
+            document.documentElement.style.setProperty('--primary-light', state.primaryColor);
+            document.documentElement.style.setProperty('--accent-color', state.accentColor);
+            document.documentElement.style.setProperty('--accent-light', state.accentLight);
+        }
+
+        function setAccentColor(primary, accent, accentLight) {
+            state.primaryColor = primary;
+            state.accentColor = accent;
+            state.accentLight = accentLight;
+            localStorage.setItem('gt-x-primary-color', primary);
+            localStorage.setItem('gt-x-accent-color', accent);
+            localStorage.setItem('gt-x-accent-light', accentLight);
+            applyColorScheme();
+            
+            // Update color picker UI
+            document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function applyCustomColor() {
+            const input = document.getElementById('customColorInput').value.trim();
+            if (/^#[0-9A-F]{6}$/i.test(input)) {
+                setAccentColor(input, input, input);
+                document.getElementById('customColorInput').value = '';
+            } else {
+                alert('Please enter a valid hex color (e.g., #4f46e5)');
+            }
+        }
+
+        // ============= CHAT FUNCTIONS =============
         function getAIResponse(input) {
             const lower = input.toLowerCase();
             
@@ -706,6 +1190,11 @@
             userInput.focus();
         }
 
+        function formatTime() {
+            const now = new Date();
+            return now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+        }
+
         function addMessage(text, isUser) {
             chatMessages.style.display = 'flex';
             chatEmpty.style.display = 'none';
@@ -717,12 +1206,24 @@
             avatar.className = `message-avatar ${isUser ? 'user' : 'ai'}`;
             avatar.textContent = isUser ? '👤' : '⚡';
 
+            const contentWrapper = document.createElement('div');
+            contentWrapper.style.display = 'flex';
+            contentWrapper.style.flexDirection = 'column';
+            contentWrapper.style.gap = '4px';
+
             const content = document.createElement('div');
             content.className = 'message-content';
             content.textContent = text;
 
+            const time = document.createElement('div');
+            time.className = 'message-time';
+            time.textContent = formatTime();
+
+            contentWrapper.appendChild(content);
+            contentWrapper.appendChild(time);
+
             messageDiv.appendChild(avatar);
-            messageDiv.appendChild(content);
+            messageDiv.appendChild(contentWrapper);
             chatMessages.appendChild(messageDiv);
 
             chatContainer.scrollTop = chatContainer.scrollHeight;
@@ -772,31 +1273,17 @@
             }, 1200);
         }
 
-        // Event Listeners
-        sendBtn.addEventListener('click', sendMessage);
-        userInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
-
-        newChatBtn.addEventListener('click', () => {
+        function resetChat() {
             chatMessages.innerHTML = '';
             chatMessages.style.display = 'none';
             chatEmpty.style.display = 'flex';
             userInput.value = '';
             userInput.style.height = 'auto';
             userInput.focus();
-        });
+        }
 
-        // Auto-resize textarea
-        userInput.addEventListener('input', () => {
-            userInput.style.height = 'auto';
-            userInput.style.height = Math.min(userInput.scrollHeight, 120) + 'px';
-        });
-
-        // Initial focus
+        // ============= START APPLICATION =============
+        initialize();
         userInput.focus();
     </script>
 </body>
