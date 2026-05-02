@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GT-X Power AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0d1425 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Animated background elements */
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            filter: blur(40px);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: #0066ff;
+            top: -100px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: #00d4ff;
+            bottom: -50px;
+            right: -50px;
+            animation-delay: 3s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, 30px); }
+        }
+
+        /* Main card */
+        .main-card {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 600px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 2px solid #0066ff;
+            border-radius: 20px;
+            padding: 50px 40px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 0 40px rgba(0, 102, 255, 0.3),
+                        0 0 80px rgba(0, 102, 255, 0.1);
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Lightning bolt symbol */
+        .lightning-symbol {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .lightning-bolt {
+            position: relative;
+            width: 80px;
+            height: 120px;
+            animation: pulse 2s ease-in-out infinite, bounce 2s ease-in-out infinite;
+        }
+
+        .lightning-bolt svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 20px #0066ff);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Title and branding */
+        .title-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .brand-name {
+            font-size: 48px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, #0066ff, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        .tagline {
+            font-size: 14px;
+            color: #00d4ff;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            font-size: 14px;
+            color: #8899cc;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 10px rgba(0, 102, 255, 0.5); }
+            50% { text-shadow: 0 0 20px rgba(0, 212, 255, 0.8); }
+        }
+
+        /* Input section */
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 12px;
+            color: #00d4ff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .input-box {
+            flex: 1;
+            padding: 12px 16px;
+            background: rgba(0, 102, 255, 0.1);
+            border: 1px solid #0066ff;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .input-box:focus {
+            outline: none;
+            background: rgba(0, 102, 255, 0.2);
+            border-color: #00d4ff;
+            box-shadow: 0 0 15px rgba(0, 102, 255, 0.5);
+        }
+
+        .input-box::placeholder {
+            color: #5577aa;
+        }
+
+        /* Button */
+        .power-button {
+            width: 100%;
+            padding: 14px 24px;
+            background: linear-gradient(135deg, #0066ff, #0052cc);
+            border: 1px solid #00d4ff;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .power-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .power-button:hover {
+            background: linear-gradient(135deg, #0052cc, #003d99);
+            box-shadow: 0 0 30px rgba(0, 102, 255, 0.6),
+                        0 0 60px rgba(0, 212, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .power-button:hover::before {
+            left: 100%;
+        }
+
+        .power-button:active {
+            transform: translateY(0);
+        }
+
+        /* Status indicators */
+        .status-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(0, 102, 255, 0.3);
+        }
+
+        .status-item {
+            text-align: center;
+            padding: 15px;
+            background: rgba(0, 102, 255, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(0, 102, 255, 0.2);
+        }
+
+        .status-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #00d4ff;
+            margin-bottom: 5px;
+        }
+
+        .status-label {
+            font-size: 11px;
+            color: #5577aa;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Loading animation */
+        .loading-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #0066ff;
+            border-radius: 50%;
+            margin: 0 3px;
+            animation: loading 1.4s infinite;
+        }
+
+        .loading-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .loading-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes loading {
+            0%, 100% { opacity: 0.3; transform: translateY(0); }
+            50% { opacity: 1; transform: translateY(-10px); }
+        }
+
+        /* Response area */
+        .response-area {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(0, 102, 255, 0.1);
+            border: 1px solid #0066ff;
+            border-radius: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .response-area.active {
+            display: block;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .response-text {
+            font-size: 13px;
+            color: #00d4ff;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Animated background -->
+        <div class="bg-orb orb-1"></div>
+        <div class="bg-orb orb-2"></div>
+
+        <!-- Main card -->
+        <div class="main-card">
+            <!-- Lightning bolt symbol -->
+            <div class="lightning-symbol">
+                <div class="lightning-bolt">
+                    <svg viewBox="0 0 100 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M50 10 L80 70 L50 70 L75 150 L25 85 L55 85 Z" 
+                              fill="#0066ff" 
+                              stroke="#00d4ff" 
+                              stroke-width="2" 
+                              stroke-linejoin="round"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Title section -->
+            <div class="title-section">
+                <h1 class="brand-name">GT-X</h1>
+                <p class="tagline">Power AI</p>
+                <p class="description">Advanced Artificial Intelligence Engine with Neural Processing Capabilities</p>
+            </div>
+
+            <!-- Input section -->
+            <div class="input-section">
+                <label class="input-label">Enter Your Query</label>
+                <div class="input-group">
+                    <input type="text" class="input-box" id="userInput" placeholder="Ask GT-X Power AI anything...">
+                    <button class="power-button" id="submitBtn">
+                        ⚡ Execute
+                    </button>
+                </div>
+            </div>
+
+            <!-- Response area -->
+            <div class="response-area" id="responseArea">
+                <p class="response-text" id="responseText"></p>
+            </div>
+
+            <!-- Status section -->
+            <div class="status-section">
+                <div class="status-item">
+                    <div class="status-value" id="processingSpeed">99.9%</div>
+                    <div class="status-label">Processing</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-value" id="powerLevel">MAX</div>
+                    <div class="status-label">Power Level</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get elements
+        const submitBtn = document.getElementById('submitBtn');
+        const userInput = document.getElementById('userInput');
+        const responseArea = document.getElementById('responseArea');
+        const responseText = document.getElementById('responseText');
+        const processingSpeed = document.getElementById('processingSpeed');
+        const powerLevel = document.getElementById('powerLevel');
+
+        // AI responses database
+        const aiResponses = {
+            'hello': 'Greetings! I am GT-X Power AI. How can I assist you today?',
+            'hi': 'Hello! Welcome to GT-X Power AI. Ready to process your requests.',
+            'how are you': 'I am functioning at optimal levels. My neural networks are fully operational.',
+            'what is gt-x': 'GT-X Power AI is an advanced artificial intelligence engine with cutting-edge neural processing capabilities. I\'m designed to assist, analyze, and provide intelligent solutions.',
+            'power': 'My power level is at maximum capacity. ⚡ Ready for intensive processing.',
+            'help': 'I can assist you with various tasks. Try asking questions, requesting analysis, or seeking information. I\'m here to help!',
+            'time': `Current time: ${new Date().toLocaleTimeString()}. Always ready to serve.`,
+            'date': `Current date: ${new Date().toLocaleDateString()}. Time flows, but GT-X never sleeps.`,
+            'thanks': 'You\'re welcome! Always happy to assist. Anything else you need?',
+            'bye': 'Farewell! Remember, GT-X Power AI is always here when you need me. ⚡',
+            'default': 'Interesting query! I\'ve processed your input and logged it to my neural database. Feel free to ask me anything else!'
+        };
+
+        // Function to get AI response
+        function getAIResponse(input) {
+            const lowerInput = input.toLowerCase().trim();
+            
+            // Check for exact matches
+            for (let key in aiResponses) {
+                if (lowerInput.includes(key)) {
+                    return aiResponses[key];
+                }
+            }
+            
+            // Default response
+            return aiResponses['default'];
+        }
+
+        // Function to update processing speed
+        function updateProcessingSpeed() {
+            const speed = Math.floor(Math.random() * 15) + 85;
+            processingSpeed.textContent = speed + '%';
+        }
+
+        // Function to handle submit
+        function handleSubmit() {
+            const input = userInput.value.trim();
+            
+            if (!input) {
+                alert('Please enter a query');
+                return;
+            }
+
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Processing ';
+            submitBtn.innerHTML += '<span class="loading-dot"></span><span class="loading-dot"></span><span class="loading-dot"></span>';
+            
+            // Update processing speed
+            updateProcessingSpeed();
+
+            // Simulate processing delay
+            setTimeout(() => {
+                const response = getAIResponse(input);
+                responseText.textContent = response;
+                responseArea.classList.add('active');
+                
+                // Reset button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '⚡ Execute';
+                
+                // Clear input
+                userInput.value = '';
+                userInput.focus();
+
+                // Random power level update
+                powerLevel.textContent = Math.random() > 0.5 ? 'MAX' : 'OPTIMAL';
+            }, 1500);
+        }
+
+        // Event listeners
+        submitBtn.addEventListener('click', handleSubmit);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleSubmit();
+            }
+        });
+
+        // Animate processing speed on load
+        setInterval(updateProcessingSpeed, 3000);
+    </script>
+</body>
+</html>
