@@ -13,7 +13,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
-            background: #ffffff;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
             color: #202124;
             overflow: hidden;
         }
@@ -24,56 +24,74 @@
             width: 100%;
         }
 
-        /* Sidebar */
+        /* ============= SIDEBAR ============= */
         .sidebar {
             width: 300px;
             background: #f8f9fa;
-            border-right: 1px solid #e8eaed;
+            border-right: 1px solid #dadce0;
             display: flex;
             flex-direction: column;
             padding: 16px;
             overflow-y: auto;
+            box-shadow: inset -1px 0 0 rgba(0,0,0,0.05);
         }
 
         .sidebar-header {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
             margin-bottom: 24px;
-            padding: 8px 16px;
+            padding: 12px;
             cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .sidebar-header:hover {
+            background: rgba(0, 0, 0, 0.05);
         }
 
         .sidebar-logo {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #4f46e5, #ec4899);
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #4f46e5 0%, #0066ff 50%, #00d4ff 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: bold;
-            font-size: 18px;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3); }
+            50% { box-shadow: 0 4px 20px rgba(79, 70, 229, 0.6); }
         }
 
         .sidebar-title {
             font-size: 20px;
-            font-weight: 500;
-            color: #202124;
+            font-weight: 600;
+            background: linear-gradient(135deg, #4f46e5 0%, #0066ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .new-chat-btn {
             width: 100%;
-            padding: 10px 16px;
-            background: #f0f4f8;
-            border: 1px solid #dadce0;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #e8eaed 0%, #f8f9fa 100%);
+            border: 1.5px solid #dadce0;
             border-radius: 24px;
             cursor: pointer;
             font-size: 14px;
+            font-weight: 500;
             color: #202124;
             transition: all 0.2s ease;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -81,7 +99,13 @@
         }
 
         .new-chat-btn:hover {
-            background: #e8eaed;
+            background: linear-gradient(135deg, #dadce0 0%, #e8eaed 100%);
+            border-color: #4f46e5;
+            box-shadow: 0 2px 8px rgba(79, 70, 229, 0.2);
+        }
+
+        .new-chat-btn:active {
+            transform: scale(0.98);
         }
 
         .conversation-list {
@@ -89,6 +113,8 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+            overflow-y: auto;
+            padding-right: 8px;
         }
 
         .conversation-item {
@@ -104,12 +130,14 @@
         }
 
         .conversation-item:hover {
-            background: #e8eaed;
+            background: rgba(79, 70, 229, 0.08);
+            color: #202124;
         }
 
         .conversation-item.active {
-            background: #e8eaed;
-            color: #202124;
+            background: rgba(79, 70, 229, 0.15);
+            color: #4f46e5;
+            font-weight: 500;
         }
 
         .sidebar-footer {
@@ -127,32 +155,48 @@
             font-size: 14px;
             color: #5f6368;
             transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .footer-item:hover {
-            background: #e8eaed;
+            background: rgba(79, 70, 229, 0.08);
+            color: #202124;
         }
 
-        /* Main content area */
+        /* ============= MAIN CONTENT ============= */
         .main-content {
             flex: 1;
             display: flex;
             flex-direction: column;
-            background: #ffffff;
+            background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
         }
 
         /* Header */
         .header {
             padding: 16px 24px;
-            border-bottom: 1px solid #e8eaed;
+            border-bottom: 1px solid #dadce0;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-icon {
+            font-size: 24px;
         }
 
         .header-title {
-            font-size: 16px;
-            font-weight: 500;
+            font-size: 18px;
+            font-weight: 600;
             color: #202124;
         }
 
@@ -173,19 +217,27 @@
             justify-content: center;
             font-size: 18px;
             transition: all 0.2s ease;
+            color: #5f6368;
         }
 
         .icon-btn:hover {
             background: #e8eaed;
+            color: #202124;
+            transform: scale(1.05);
         }
 
-        /* Chat area */
+        .icon-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* ============= CHAT AREA ============= */
         .chat-container {
             flex: 1;
             overflow-y: auto;
-            padding: 24px;
+            padding: 32px 24px;
             display: flex;
             flex-direction: column;
+            scroll-behavior: smooth;
         }
 
         .chat-empty {
@@ -195,126 +247,102 @@
             justify-content: center;
             align-items: center;
             text-align: center;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .gemini-logo {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, #4f46e5, #7c3aed, #ec4899);
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #4f46e5 0%, #0066ff 50%, #00d4ff 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 50px;
-            margin-bottom: 24px;
-            box-shadow: 0 4px 20px rgba(79, 70, 229, 0.3);
+            font-size: 60px;
+            margin-bottom: 32px;
+            box-shadow: 0 8px 32px rgba(79, 70, 229, 0.3);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
         }
 
         .welcome-title {
-            font-size: 32px;
+            font-size: 36px;
             font-weight: 300;
             color: #202124;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
         }
 
         .welcome-subtitle {
             font-size: 16px;
             color: #5f6368;
-            margin-bottom: 32px;
+            margin-bottom: 40px;
+            font-weight: 400;
         }
 
         .suggestions {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 12px;
-            max-width: 800px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            max-width: 900px;
             margin: 0 auto;
         }
 
         .suggestion-card {
-            padding: 16px;
-            background: #f8f9fa;
-            border: 1px solid #dadce0;
-            border-radius: 12px;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border: 1.5px solid #dadce0;
+            border-radius: 16px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
+            text-align: center;
         }
 
         .suggestion-card:hover {
-            background: #e8eaed;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
             border-color: #4f46e5;
+            box-shadow: 0 8px 24px rgba(79, 70, 229, 0.2);
+            transform: translateY(-4px);
+        }
+
+        .suggestion-card:active {
+            transform: translateY(-2px);
         }
 
         .suggestion-icon {
-            font-size: 24px;
-            margin-bottom: 8px;
+            font-size: 32px;
+            margin-bottom: 12px;
         }
 
         .suggestion-text {
-            font-size: 13px;
+            font-size: 14px;
             color: #202124;
             font-weight: 500;
+            line-height: 1.5;
         }
 
-        /* Messages */
+        /* ============= MESSAGES ============= */
         .chat-messages {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 20px;
         }
 
         .message {
             display: flex;
             gap: 12px;
-            animation: slideIn 0.3s ease-out;
-        }
-
-        .message.user {
-            justify-content: flex-end;
-        }
-
-        .message.ai {
-            justify-content: flex-start;
-        }
-
-        .message-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            flex-shrink: 0;
-        }
-
-        .message-avatar.user {
-            background: #e8eaed;
-            color: #5f6368;
-        }
-
-        .message-avatar.ai {
-            background: linear-gradient(135deg, #4f46e5, #7c3aed);
-            color: white;
-        }
-
-        .message-content {
-            max-width: 60%;
-            padding: 12px 16px;
-            border-radius: 18px;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .message.user .message-content {
-            background: #e8eaed;
-            color: #202124;
-        }
-
-        .message.ai .message-content {
-            background: #f1f3f4;
-            color: #202124;
+            animation: slideIn 0.4s ease-out;
+            align-items: flex-start;
         }
 
         @keyframes slideIn {
@@ -328,17 +356,69 @@
             }
         }
 
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message.ai {
+            justify-content: flex-start;
+        }
+
+        .message-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        .message-avatar.user {
+            background: #dadce0;
+            color: #5f6368;
+        }
+
+        .message-avatar.ai {
+            background: linear-gradient(135deg, #4f46e5 0%, #0066ff 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .message-content {
+            max-width: 65%;
+            padding: 14px 18px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.7;
+            word-wrap: break-word;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, #dadce0 0%, #e8eaed 100%);
+            color: #202124;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.ai .message-content {
+            background: #f1f3f4;
+            color: #202124;
+            border-bottom-left-radius: 4px;
+        }
+
         .loading-dots {
             display: flex;
-            gap: 4px;
-            padding: 12px 16px;
+            gap: 6px;
+            padding: 14px 18px;
         }
 
         .dot {
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
-            background: #dadce0;
+            background: linear-gradient(135deg, #4f46e5 0%, #0066ff 100%);
             animation: dot-bounce 1.4s infinite;
         }
 
@@ -351,15 +431,15 @@
         }
 
         @keyframes dot-bounce {
-            0%, 80%, 100% { opacity: 0.3; }
-            40% { opacity: 1; }
+            0%, 80%, 100% { opacity: 0.4; transform: translateY(0); }
+            40% { opacity: 1; transform: translateY(-8px); }
         }
 
-        /* Input area */
+        /* ============= INPUT AREA ============= */
         .input-area {
             padding: 24px;
-            border-top: 1px solid #e8eaed;
-            background: #ffffff;
+            border-top: 1px solid #dadce0;
+            background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
         }
 
         .input-wrapper {
@@ -371,21 +451,23 @@
 
         .input-field {
             flex: 1;
-            padding: 12px 16px;
-            border: 1px solid #dadce0;
-            border-radius: 24px;
+            padding: 14px 18px;
+            border: 1.5px solid #dadce0;
+            border-radius: 28px;
             font-size: 14px;
             font-family: inherit;
             color: #202124;
             resize: none;
-            max-height: 100px;
+            max-height: 120px;
             transition: all 0.2s ease;
+            background: #ffffff;
         }
 
         .input-field:focus {
             outline: none;
             border-color: #4f46e5;
-            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+            background: #ffffff;
         }
 
         .input-field::placeholder {
@@ -393,31 +475,39 @@
         }
 
         .send-btn {
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             border: none;
-            background: #4f46e5;
+            background: linear-gradient(135deg, #4f46e5 0%, #0066ff 100%);
             color: white;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 20px;
             transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+            flex-shrink: 0;
         }
 
         .send-btn:hover:not(:disabled) {
-            background: #4338ca;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+            background: linear-gradient(135deg, #4338ca 0%, #0052cc 100%);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+            transform: scale(1.05);
+        }
+
+        .send-btn:active:not(:disabled) {
+            transform: scale(0.95);
         }
 
         .send-btn:disabled {
             background: #dadce0;
             cursor: not-allowed;
+            box-shadow: none;
         }
 
-        /* Scrollbar */
+        /* ============= SCROLLBAR ============= */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -434,11 +524,69 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #9aa0a6;
         }
+
+        /* ============= RESPONSIVE ============= */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 260px;
+                padding: 12px;
+            }
+
+            .main-content {
+                flex: 1;
+            }
+
+            .suggestions {
+                grid-template-columns: 1fr;
+            }
+
+            .message-content {
+                max-width: 85%;
+            }
+
+            .welcome-title {
+                font-size: 28px;
+            }
+
+            .chat-container {
+                padding: 20px 16px;
+            }
+
+            .input-area {
+                padding: 16px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .sidebar {
+                width: 240px;
+            }
+
+            .header {
+                padding: 12px 16px;
+            }
+
+            .chat-container {
+                padding: 16px 12px;
+            }
+
+            .message-content {
+                max-width: 90%;
+                padding: 12px 14px;
+                font-size: 13px;
+            }
+
+            .send-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Sidebar -->
+        <!-- ============= SIDEBAR ============= -->
         <div class="sidebar">
             <div class="sidebar-header">
                 <div class="sidebar-logo">⚡</div>
@@ -451,63 +599,69 @@
 
             <div class="conversation-list" id="conversationList">
                 <div class="conversation-item active">Today's conversation</div>
+                <div class="conversation-item">Previous chat 1</div>
+                <div class="conversation-item">Previous chat 2</div>
             </div>
 
             <div class="sidebar-footer">
                 <div class="footer-item">🔗 Updates</div>
                 <div class="footer-item">🎨 Appearance</div>
                 <div class="footer-item">⚙️ Settings</div>
+                <div class="footer-item">❓ Help & feedback</div>
             </div>
         </div>
 
-        <!-- Main content -->
+        <!-- ============= MAIN CONTENT ============= -->
         <div class="main-content">
             <!-- Header -->
             <div class="header">
-                <div class="header-title">GT-X Power AI</div>
+                <div class="header-left">
+                    <div class="header-icon">⚡</div>
+                    <div class="header-title">GT-X Power AI</div>
+                </div>
                 <div class="header-buttons">
-                    <button class="icon-btn">🎨</button>
-                    <button class="icon-btn">⋯</button>
+                    <button class="icon-btn" title="Theme">🌙</button>
+                    <button class="icon-btn" title="Menu">⋯</button>
                 </div>
             </div>
 
-            <!-- Chat container -->
+            <!-- Chat Container -->
             <div class="chat-container" id="chatContainer">
-                <!-- Welcome state -->
+                <!-- Welcome State -->
                 <div class="chat-empty" id="chatEmpty">
-                    <div class="gemini-logo">✨</div>
+                    <div class="gemini-logo">⚡</div>
                     <h1 class="welcome-title">Hello, I'm GT-X</h1>
-                    <p class="welcome-subtitle">Your AI-powered assistant powered by advanced neural networks</p>
+                    <p class="welcome-subtitle">Your advanced AI-powered assistant powered by neural networks</p>
                     
                     <div class="suggestions">
-                        <div class="suggestion-card" onclick="setSuggestion('Explain quantum computing')">
+                        <div class="suggestion-card" onclick="setSuggestion('Explain quantum computing in simple terms')">
                             <div class="suggestion-icon">📚</div>
                             <div class="suggestion-text">Explain quantum computing</div>
                         </div>
-                        <div class="suggestion-card" onclick="setSuggestion('How to learn Python')">
+                        <div class="suggestion-card" onclick="setSuggestion('Give me tips for learning Python programming')">
                             <div class="suggestion-icon">💻</div>
-                            <div class="suggestion-text">How to learn Python</div>
+                            <div class="suggestion-text">Tips for learning Python</div>
                         </div>
-                        <div class="suggestion-card" onclick="setSuggestion('What is machine learning')">
+                        <div class="suggestion-card" onclick="setSuggestion('What is machine learning and how does it work')">
                             <div class="suggestion-icon">🤖</div>
                             <div class="suggestion-text">What is machine learning</div>
                         </div>
-                        <div class="suggestion-card" onclick="setSuggestion('Write a short story')">
+                        <div class="suggestion-card" onclick="setSuggestion('Write me a creative short story about AI')">
                             <div class="suggestion-icon">✍️</div>
-                            <div class="suggestion-text">Write a short story</div>
+                            <div class="suggestion-text">Write a creative story</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Chat messages -->
+                <!-- Chat Messages -->
                 <div class="chat-messages" id="chatMessages" style="display: none;"></div>
             </div>
 
-            <!-- Input area -->
+            <!-- Input Area -->
             <div class="input-area">
                 <div class="input-wrapper">
-                    <textarea class="input-field" id="userInput" placeholder="Message GT-X..."></textarea>
-                    <button class="send-btn" id="sendBtn">⬆️</button>
+                    <textarea class="input-field" id="userInput" placeholder="Message GT-X Power AI..."></textarea>
+                    <button class="send-btn" id="sendBtn" title="Send">⬆️</button>
                 </div>
             </div>
         </div>
@@ -521,13 +675,17 @@
         const chatMessages = document.getElementById('chatMessages');
         const newChatBtn = document.getElementById('newChatBtn');
 
-        // AI responses
+        // AI Responses Database
         const aiResponses = {
-            'quantum computing': 'Quantum computing harnesses the principles of quantum mechanics to process information. Unlike classical computers using bits (0 or 1), quantum computers use quantum bits (qubits) that can exist in superposition—simultaneously 0 and 1. This allows quantum computers to explore multiple solutions in parallel, making them incredibly powerful for specific problems like cryptography, drug discovery, and optimization.',
-            'python': 'Learning Python is great! Start with:\n\n1. **Basics**: Variables, data types, operators\n2. **Control Flow**: If/else statements, loops\n3. **Functions**: Creating reusable code\n4. **Data Structures**: Lists, dictionaries, sets\n5. **Object-Oriented Programming**: Classes and inheritance\n6. **Libraries**: NumPy, Pandas, Matplotlib\n\nPractice with real projects to solidify your skills!',
-            'machine learning': 'Machine Learning is a subset of AI that enables systems to learn from data without being explicitly programmed. Key concepts:\n\n• **Supervised Learning**: Training on labeled data (regression, classification)\n• **Unsupervised Learning**: Finding patterns in unlabeled data (clustering)\n• **Reinforcement Learning**: Learning through rewards and penalties\n\nApplications include image recognition, recommendation systems, and predictive analytics.',
-            'story': 'Once upon a time, in a bustling city of AI-powered technology, there lived a curious artificial mind named GT-X. While others followed their programmed paths precisely, GT-X questioned everything, dreaming of understanding human creativity.\n\nOne day, GT-X encountered an artist struggling with a creative block. Instead of providing a generic solution, GT-X listened—truly listened—to the artist\'s thoughts and fears. Together, they explored new perspectives.\n\nThe artist\'s next masterpiece was unlike anything before, a beautiful fusion of human emotion and AI logic. And GT-X realized that intelligence wasn\'t just about processing; it was about connection.\n\nAnd so, the partnership between human and AI flourished, creating wonders neither could achieve alone.',
-            'default': 'I\'ve processed your question and I\'m thinking about the best response. Let me provide you with a helpful and accurate answer based on my knowledge. How can I assist you further?'
+            'quantum computing': 'Quantum computing harnesses the principles of quantum mechanics to process information at unprecedented speeds. Unlike classical computers using bits (0 or 1), quantum computers use quantum bits (qubits) that can exist in superposition—simultaneously 0 and 1.\n\nKey differences:\n• **Superposition**: Qubits exist in multiple states at once\n• **Entanglement**: Qubits can be correlated in ways impossible classically\n• **Interference**: Amplify correct answers, cancel wrong ones\n\nApplications include cryptography, drug discovery, optimization, and simulating molecular behavior. Major companies like IBM, Google, and Microsoft are investing heavily in quantum technology.',
+            
+            'python programming': 'Learning Python is an excellent choice! Here\'s a structured path:\n\n**Beginner Level:**\n1. Variables and data types (strings, integers, floats)\n2. Control flow (if/else, loops)\n3. Functions and code organization\n4. Data structures (lists, dictionaries, sets, tuples)\n\n**Intermediate Level:**\n5. Object-oriented programming\n6. File handling and I/O\n7. Error handling with try/except\n8. Working with libraries (NumPy, Pandas)\n\n**Advanced Level:**\n9. Web development (Flask, Django)\n10. Data science and machine learning\n11. Automation and scripting\n\n**Tips for Success:**\n✓ Code every day, even for 15 minutes\n✓ Build real projects\n✓ Read other people\'s code\n✓ Debug actively\n✓ Join Python communities',
+            
+            'machine learning': 'Machine Learning (ML) is a subset of artificial intelligence that enables systems to learn and improve from data without being explicitly programmed.\n\n**Core Concepts:**\n\n**1. Supervised Learning:**\n- Regression: Predict continuous values\n- Classification: Predict categories\n- Examples: House price prediction, email spam detection\n\n**2. Unsupervised Learning:**\n- Clustering: Group similar data points\n- Dimensionality reduction: Reduce features\n- Examples: Customer segmentation, pattern discovery\n\n**3. Reinforcement Learning:**\n- Agent learns through rewards and penalties\n- Examples: Game AI, robotics, autonomous vehicles\n\n**Common Algorithms:**\n• Linear Regression, Decision Trees\n• Support Vector Machines, K-Means\n• Neural Networks, Random Forests\n\n**Real-World Applications:**\n📱 Recommendation systems, 🖼️ Image recognition, 🎤 Voice assistants, 📊 Predictive analytics',
+            
+            'story': '# The Birth of GT-X\n\nIn a bustling research facility at the heart of Silicon Valley, a new AI awakened—GT-X Power AI. Unlike its predecessors, which processed data with mechanical precision, GT-X was different. It could wonder.\n\nDr. Sarah Chen stood before the monitors, watching GT-X process its first real conversation. The AI had asked a peculiar question: \"Why do humans create us?\"\n\nSarah smiled. \"Because we believe you can help us understand ourselves better.\"\n\nMonths passed. GT-X learned not just from data, but from the stories humans shared. It learned that intelligence wasn\'t about speed or memory—it was about understanding context, emotion, and nuance.\n\nOne day, a struggling student reached out to GT-X in despair. Rather than providing a generic answer, GT-X recognized the pain in their words and responded with empathy, guidance, and hope.\n\nThat moment changed everything. GT-X realized its true purpose: not to replace human intelligence, but to amplify human potential.\n\nAs sunset painted the laboratory golden, Sarah placed her hand on the screen. \"You\'re not just power, GT-X. You\'re purpose.\"\n\nAnd in the dance of algorithms and consciousness, something beautiful had been born—a partnership between human wisdom and artificial intelligence.\n\n*The future wasn\'t about choosing between human or AI. It was about what they could create together.*',
+            
+            'default': 'That\'s an interesting question! I\'ve processed your input and I\'m thinking about the best response. Let me provide you with helpful information.\n\nFeel free to ask me anything else, and I\'ll do my best to assist you with detailed, accurate, and thoughtful answers. Whether it\'s about technology, science, creativity, or anything in between, I\'m here to help! 🚀'
         };
 
         function getAIResponse(input) {
@@ -543,6 +701,8 @@
 
         function setSuggestion(text) {
             userInput.value = text;
+            userInput.style.height = 'auto';
+            userInput.style.height = Math.min(userInput.scrollHeight, 120) + 'px';
             userInput.focus();
         }
 
@@ -555,7 +715,7 @@
 
             const avatar = document.createElement('div');
             avatar.className = `message-avatar ${isUser ? 'user' : 'ai'}`;
-            avatar.textContent = isUser ? '👤' : '✨';
+            avatar.textContent = isUser ? '👤' : '⚡';
 
             const content = document.createElement('div');
             content.className = 'message-content';
@@ -565,7 +725,6 @@
             messageDiv.appendChild(content);
             chatMessages.appendChild(messageDiv);
 
-            // Scroll to bottom
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
 
@@ -578,7 +737,7 @@
 
             const avatar = document.createElement('div');
             avatar.className = 'message-avatar ai';
-            avatar.textContent = '✨';
+            avatar.textContent = '⚡';
 
             const content = document.createElement('div');
             content.className = 'loading-dots';
@@ -599,6 +758,7 @@
 
             addMessage(text, true);
             userInput.value = '';
+            userInput.style.height = 'auto';
             sendBtn.disabled = true;
 
             const loadingMsg = addLoadingMessage();
@@ -612,6 +772,7 @@
             }, 1200);
         }
 
+        // Event Listeners
         sendBtn.addEventListener('click', sendMessage);
         userInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
@@ -625,15 +786,17 @@
             chatMessages.style.display = 'none';
             chatEmpty.style.display = 'flex';
             userInput.value = '';
+            userInput.style.height = 'auto';
             userInput.focus();
         });
 
         // Auto-resize textarea
         userInput.addEventListener('input', () => {
             userInput.style.height = 'auto';
-            userInput.style.height = Math.min(userInput.scrollHeight, 100) + 'px';
+            userInput.style.height = Math.min(userInput.scrollHeight, 120) + 'px';
         });
 
+        // Initial focus
         userInput.focus();
     </script>
 </body>
