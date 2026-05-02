@@ -89,33 +89,34 @@
         .sidebar.collapsed .sidebar-header {
             justify-content: center;
             margin-bottom: 16px;
+            flex-direction: column;
         }
 
         .sidebar-logo {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 50%, var(--accent-light) 100%);
-            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-light) 100%);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: bold;
             font-size: 24px;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
             animation: pulse-glow 2s ease-in-out infinite;
             flex-shrink: 0;
         }
 
         @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3); }
-            50% { box-shadow: 0 4px 20px rgba(79, 70, 229, 0.6); }
+            0%, 100% { box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3); }
+            50% { box-shadow: 0 4px 20px rgba(0, 102, 255, 0.6); }
         }
 
         .sidebar-title {
             font-size: 20px;
             font-weight: 600;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-light) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -128,25 +129,26 @@
         .new-chat-btn {
             width: 100%;
             padding: 12px 16px;
-            background: linear-gradient(135deg, var(--hover-color) 0%, var(--background-secondary) 100%);
-            border: 1.5px solid var(--border-color);
-            border-radius: 24px;
+            background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-light) 100%);
+            border: none;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 14px;
-            font-weight: 500;
-            color: var(--text-primary);
+            font-weight: 600;
+            color: white;
             transition: all 0.2s ease;
             margin-bottom: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
+            box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
         }
 
         .new-chat-btn:hover {
-            background: linear-gradient(135deg, var(--border-color) 0%, var(--hover-color) 100%);
-            border-color: var(--primary-color);
-            box-shadow: 0 2px 8px rgba(79, 70, 229, 0.2);
+            background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-light) 100%);
+            box-shadow: 0 6px 20px rgba(0, 102, 255, 0.4);
+            transform: translateY(-2px);
         }
 
         .new-chat-btn:active {
@@ -159,10 +161,10 @@
 
         .sidebar.collapsed .new-chat-btn {
             padding: 12px;
-            border-radius: 50%;
             width: 48px;
             height: 48px;
             margin-bottom: 12px;
+            border-radius: 8px;
         }
 
         .sidebar.collapsed .btn-text {
@@ -191,13 +193,13 @@
         }
 
         .conversation-item:hover {
-            background: rgba(79, 70, 229, 0.08);
+            background: rgba(0, 102, 255, 0.08);
             color: var(--text-primary);
         }
 
         .conversation-item.active {
-            background: rgba(79, 70, 229, 0.15);
-            color: var(--primary-color);
+            background: rgba(0, 102, 255, 0.15);
+            color: var(--accent-color);
             font-weight: 500;
         }
 
@@ -222,7 +224,7 @@
         }
 
         .footer-item:hover {
-            background: rgba(79, 70, 229, 0.08);
+            background: rgba(0, 102, 255, 0.08);
             color: var(--text-primary);
         }
 
@@ -267,6 +269,10 @@
 
         .header-icon {
             font-size: 24px;
+            background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .header-title {
@@ -283,7 +289,7 @@
         .icon-btn {
             width: 40px;
             height: 40px;
-            border-radius: 50%;
+            border-radius: 8px;
             border: none;
             background: var(--hover-color);
             cursor: pointer;
@@ -340,18 +346,10 @@
         }
 
         .gemini-logo {
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 50%, var(--accent-light) 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 60px;
+            font-size: 80px;
             margin-bottom: 32px;
-            box-shadow: 0 8px 32px rgba(79, 70, 229, 0.3);
             animation: float 3s ease-in-out infinite;
+            text-shadow: 0 4px 20px rgba(0, 102, 255, 0.3);
         }
 
         @keyframes float {
@@ -386,7 +384,7 @@
             padding: 20px;
             background: linear-gradient(135deg, var(--background-primary) 0%, var(--background-secondary) 100%);
             border: 1.5px solid var(--border-color);
-            border-radius: 16px;
+            border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
             text-align: center;
@@ -394,8 +392,8 @@
 
         .suggestion-card:hover {
             background: linear-gradient(135deg, var(--background-secondary) 0%, var(--background-primary) 100%);
-            border-color: var(--primary-color);
-            box-shadow: 0 8px 24px rgba(79, 70, 229, 0.2);
+            border-color: var(--accent-color);
+            box-shadow: 0 8px 24px rgba(0, 102, 255, 0.2);
             transform: translateY(-4px);
         }
 
@@ -451,7 +449,7 @@
         .message-avatar {
             width: 36px;
             height: 36px;
-            border-radius: 50%;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -466,15 +464,15 @@
         }
 
         .message-avatar.ai {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-light) 100%);
             color: white;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
         }
 
         .message-content {
             max-width: 65%;
             padding: 14px 18px;
-            border-radius: 18px;
+            border-radius: 12px;
             font-size: 14px;
             line-height: 1.7;
             word-wrap: break-word;
@@ -482,15 +480,13 @@
         }
 
         .message.user .message-content {
-            background: linear-gradient(135deg, var(--hover-color) 0%, var(--border-color) 100%);
-            color: var(--text-primary);
-            border-bottom-right-radius: 4px;
+            background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-light) 100%);
+            color: white;
         }
 
         .message.ai .message-content {
             background: var(--background-tertiary);
             color: var(--text-primary);
-            border-bottom-left-radius: 4px;
         }
 
         .message-time {
@@ -513,7 +509,7 @@
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-light) 100%);
             animation: dot-bounce 1.4s infinite;
         }
 
@@ -548,7 +544,7 @@
             flex: 1;
             padding: 14px 18px;
             border: 1.5px solid var(--border-color);
-            border-radius: 28px;
+            border-radius: 12px;
             font-size: 14px;
             font-family: inherit;
             color: var(--text-primary);
@@ -560,8 +556,8 @@
 
         .input-field:focus {
             outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
             background: var(--background-primary);
         }
 
@@ -572,9 +568,9 @@
         .send-btn {
             width: 44px;
             height: 44px;
-            border-radius: 50%;
+            border-radius: 8px;
             border: none;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-light) 100%);
             color: white;
             cursor: pointer;
             display: flex;
@@ -582,13 +578,13 @@
             justify-content: center;
             font-size: 20px;
             transition: all 0.2s ease;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
             flex-shrink: 0;
         }
 
         .send-btn:hover:not(:disabled) {
-            background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent-color) 100%);
-            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+            background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-light) 100%);
+            box-shadow: 0 6px 20px rgba(0, 102, 255, 0.4);
             transform: scale(1.05);
         }
 
@@ -709,13 +705,13 @@
             width: 50px;
             height: 28px;
             background: var(--border-color);
-            border-radius: 14px;
+            border-radius: 8px;
             cursor: pointer;
             transition: background 0.3s ease;
         }
 
         .switch.on {
-            background: var(--primary-color);
+            background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-light) 100%);
         }
 
         .switch::after {
@@ -724,7 +720,7 @@
             width: 24px;
             height: 24px;
             background: white;
-            border-radius: 50%;
+            border-radius: 6px;
             top: 2px;
             left: 2px;
             transition: left 0.3s ease;
@@ -753,7 +749,7 @@
 
         .color-input-group button {
             padding: 10px 16px;
-            background: var(--primary-color);
+            background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-light) 100%);
             color: white;
             border: none;
             border-radius: 8px;
@@ -762,7 +758,7 @@
         }
 
         .color-input-group button:hover {
-            background: var(--primary-light);
+            box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
         }
 
         /* ============= SCROLLBAR ============= */
@@ -950,30 +946,23 @@
             </div>
 
             <div class="setting-group">
-                <label class="setting-label">Primary Color (Lightning Bolt - Always Blue)</label>
-                <div style="padding: 12px; background: var(--hover-color); border-radius: 8px; margin-top: 8px;">
-                    <p style="font-size: 12px; color: var(--text-secondary);">The lightning symbol ⚡ color is locked to blue for brand consistency.</p>
-                </div>
-            </div>
-
-            <div class="setting-group">
                 <label class="setting-label">Accent Colors</label>
                 <div class="color-picker">
-                    <div class="color-option active" style="background: linear-gradient(135deg, #4f46e5, #0066ff);" onclick="setAccentColor('#4f46e5', '#0066ff', '#00d4ff')" title="Blue"></div>
-                    <div class="color-option" style="background: linear-gradient(135deg, #7c3aed, #9333ea);" onclick="setAccentColor('#7c3aed', '#9333ea', '#d946ef')" title="Purple"></div>
-                    <div class="color-option" style="background: linear-gradient(135deg, #2563eb, #3b82f6);" onclick="setAccentColor('#2563eb', '#3b82f6', '#60a5fa')" title="Light Blue"></div>
-                    <div class="color-option" style="background: linear-gradient(135deg, #059669, #10b981);" onclick="setAccentColor('#059669', '#10b981', '#34d399')" title="Green"></div>
-                    <div class="color-option" style="background: linear-gradient(135deg, #dc2626, #ef4444);" onclick="setAccentColor('#dc2626', '#ef4444', '#f87171')" title="Red"></div>
-                    <div class="color-option" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);" onclick="setAccentColor('#f59e0b', '#fbbf24', '#fcd34d')" title="Amber"></div>
-                    <div class="color-option" style="background: linear-gradient(135deg, #e11d48, #f43f5e);" onclick="setAccentColor('#e11d48', '#f43f5e', '#fb7185')" title="Rose"></div>
-                    <div class="color-option" style="background: linear-gradient(135deg, #0891b2, #06b6d4);" onclick="setAccentColor('#0891b2', '#06b6d4', '#22d3ee')" title="Cyan"></div>
+                    <div class="color-option active" style="background: linear-gradient(135deg, #0066ff, #00d4ff);" onclick="setAccentColor('#0066ff', '#00d4ff', '#00d4ff')" title="Blue"></div>
+                    <div class="color-option" style="background: linear-gradient(135deg, #7c3aed, #d946ef);" onclick="setAccentColor('#7c3aed', '#d946ef', '#d946ef')" title="Purple"></div>
+                    <div class="color-option" style="background: linear-gradient(135deg, #2563eb, #60a5fa);" onclick="setAccentColor('#2563eb', '#60a5fa', '#60a5fa')" title="Light Blue"></div>
+                    <div class="color-option" style="background: linear-gradient(135deg, #059669, #34d399);" onclick="setAccentColor('#059669', '#34d399', '#34d399')" title="Green"></div>
+                    <div class="color-option" style="background: linear-gradient(135deg, #dc2626, #f87171);" onclick="setAccentColor('#dc2626', '#f87171', '#f87171')" title="Red"></div>
+                    <div class="color-option" style="background: linear-gradient(135deg, #f59e0b, #fcd34d);" onclick="setAccentColor('#f59e0b', '#fcd34d', '#fcd34d')" title="Amber"></div>
+                    <div class="color-option" style="background: linear-gradient(135deg, #e11d48, #fb7185);" onclick="setAccentColor('#e11d48', '#fb7185', '#fb7185')" title="Rose"></div>
+                    <div class="color-option" style="background: linear-gradient(135deg, #0891b2, #22d3ee);" onclick="setAccentColor('#0891b2', '#22d3ee', '#22d3ee')" title="Cyan"></div>
                 </div>
             </div>
 
             <div class="setting-group">
                 <label class="setting-label">Custom Color (Hex)</label>
                 <div class="color-input-group">
-                    <input type="text" id="customColorInput" placeholder="#4f46e5" maxlength="7">
+                    <input type="text" id="customColorInput" placeholder="#0066ff" maxlength="7">
                     <button onclick="applyCustomColor()">Apply</button>
                 </div>
             </div>
@@ -1004,8 +993,8 @@
             theme: localStorage.getItem('gt-x-theme') || 'light',
             sidebarCollapsed: localStorage.getItem('gt-x-sidebar-collapsed') === 'true',
             largeText: localStorage.getItem('gt-x-large-text') === 'true',
-            primaryColor: localStorage.getItem('gt-x-primary-color') || '#4f46e5',
-            accentColor: localStorage.getItem('gt-x-accent-color') || '#0066ff',
+            primaryColor: localStorage.getItem('gt-x-primary-color') || '#0066ff',
+            accentColor: localStorage.getItem('gt-x-accent-color') || '#00d4ff',
             accentLight: localStorage.getItem('gt-x-accent-light') || '#00d4ff'
         };
 
@@ -1167,7 +1156,7 @@
                 setAccentColor(input, input, input);
                 document.getElementById('customColorInput').value = '';
             } else {
-                alert('Please enter a valid hex color (e.g., #4f46e5)');
+                alert('Please enter a valid hex color (e.g., #0066ff)');
             }
         }
 
