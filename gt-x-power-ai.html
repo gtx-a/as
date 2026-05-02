@@ -6,8 +6,8 @@
     <title>GT-X Power AI - Advanced Chat Interface</title>
     <style>
         :root {
-            --primary-color: #4f46e5;
-            --primary-light: #6366f1;
+            --primary-color: #0066ff;
+            --primary-light: #0052cc;
             --accent-color: #0066ff;
             --accent-light: #00d4ff;
             --background-primary: #ffffff;
@@ -60,7 +60,7 @@
             border-right: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
-            padding: 16px;
+            padding: 0;
             overflow-y: auto;
             box-shadow: inset -1px 0 0 rgba(0,0,0,0.05);
             transition: all 0.3s ease;
@@ -68,18 +68,71 @@
 
         .sidebar.collapsed {
             width: 80px;
-            padding: 12px 8px;
+            padding: 0;
         }
 
+        /* Account Section */
+        .account-section {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .account-section:hover {
+            background: var(--hover-color);
+        }
+
+        .sidebar.collapsed .account-section {
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .account-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-light) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .account-info {
+            flex: 1;
+        }
+
+        .account-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .account-email {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .sidebar.collapsed .account-info {
+            display: none;
+        }
+
+        /* Sidebar Header */
         .sidebar-header {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 24px;
-            padding: 12px;
+            padding: 16px;
             cursor: pointer;
             transition: all 0.3s ease;
-            border-radius: 8px;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .sidebar-header:hover {
@@ -88,7 +141,6 @@
 
         .sidebar.collapsed .sidebar-header {
             justify-content: center;
-            margin-bottom: 16px;
             flex-direction: column;
         }
 
@@ -126,8 +178,10 @@
             display: none;
         }
 
+        /* New Chat Button */
         .new-chat-btn {
-            width: 100%;
+            width: calc(100% - 32px);
+            margin: 16px 16px 0 16px;
             padding: 12px 16px;
             background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-light) 100%);
             border: none;
@@ -137,7 +191,6 @@
             font-weight: 600;
             color: white;
             transition: all 0.2s ease;
-            margin-bottom: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -146,7 +199,6 @@
         }
 
         .new-chat-btn:hover {
-            background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-light) 100%);
             box-shadow: 0 6px 20px rgba(0, 102, 255, 0.4);
             transform: translateY(-2px);
         }
@@ -160,24 +212,37 @@
         }
 
         .sidebar.collapsed .new-chat-btn {
+            width: calc(100% - 16px);
+            margin: 16px 8px 0 8px;
             padding: 12px;
-            width: 48px;
-            height: 48px;
-            margin-bottom: 12px;
-            border-radius: 8px;
         }
 
         .sidebar.collapsed .btn-text {
             display: none;
         }
 
+        /* Recent Section */
+        .recent-header {
+            padding: 16px 16px 8px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .sidebar.collapsed .recent-header {
+            display: none;
+        }
+
+        /* Conversation List */
         .conversation-list {
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 4px;
             overflow-y: auto;
-            padding-right: 8px;
+            padding: 0 8px 16px 8px;
         }
 
         .conversation-item {
@@ -203,12 +268,17 @@
             font-weight: 500;
         }
 
+        .sidebar.collapsed .conversation-item {
+            display: none;
+        }
+
+        /* Sidebar Footer */
         .sidebar-footer {
             border-top: 1px solid var(--border-color);
-            padding-top: 16px;
+            padding: 8px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 4px;
         }
 
         .footer-item {
@@ -299,6 +369,7 @@
             font-size: 18px;
             transition: all 0.2s ease;
             color: var(--text-secondary);
+            position: relative;
         }
 
         .icon-btn:hover {
@@ -317,6 +388,49 @@
 
         .toggle-sidebar-btn:hover {
             background: var(--hover-color);
+        }
+
+        /* Dropdown Menu */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--background-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            min-width: 200px;
+            padding: 8px;
+            margin-top: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            display: none;
+            flex-direction: column;
+            z-index: 999;
+        }
+
+        .dropdown-menu.show {
+            display: flex;
+        }
+
+        .dropdown-item {
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dropdown-item:hover {
+            background: var(--hover-color);
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: var(--border-color);
+            margin: 4px 0;
         }
 
         /* ============= CHAT AREA ============= */
@@ -598,7 +712,7 @@
             box-shadow: none;
         }
 
-        /* ============= SETTINGS MODAL ============= */
+        /* ============= MODALS ============= */
         .modal {
             display: none;
             position: fixed;
@@ -841,32 +955,59 @@
     <div class="container">
         <!-- ============= SIDEBAR ============= -->
         <div class="sidebar" id="sidebar">
+            <!-- Account Section -->
+            <div class="account-section" id="accountBtn" title="GT-X Account">
+                <div class="account-avatar">⚡</div>
+                <div class="account-info">
+                    <div class="account-name">GT-X Account</div>
+                    <div class="account-email">user@gtx.ai</div>
+                </div>
+            </div>
+
+            <!-- Sidebar Logo -->
             <div class="sidebar-header">
                 <div class="sidebar-logo">⚡</div>
                 <div class="sidebar-title">GT-X</div>
             </div>
             
+            <!-- New Chat Button -->
             <button class="new-chat-btn" id="newChatBtn" title="Start a new conversation">
                 <span>➕</span><span class="btn-text">New chat</span>
             </button>
 
+            <!-- Recent Section -->
+            <div class="recent-header">Recent</div>
+
+            <!-- Conversation List -->
             <div class="conversation-list" id="conversationList">
                 <div class="conversation-item active">Today's conversation</div>
                 <div class="conversation-item">Yesterday - AI Basics</div>
                 <div class="conversation-item">Programming Tips</div>
                 <div class="conversation-item">Creative Writing</div>
                 <div class="conversation-item">Tech Discussion</div>
+                <div class="conversation-item">Machine Learning</div>
+                <div class="conversation-item">Python Tutorial</div>
             </div>
 
+            <!-- Footer Menu -->
             <div class="sidebar-footer">
-                <div class="footer-item" id="updatesBtn" title="Updates">
-                    <span>🔗</span><span class="item-text">Updates</span>
+                <div class="footer-item" id="exploreBtn" title="Explore">
+                    <span>🌐</span><span class="item-text">Explore</span>
                 </div>
-                <div class="footer-item" id="appearanceBtn" title="Appearance settings">
+                <div class="footer-item" id="savedBtn" title="Saved">
+                    <span>⭐</span><span class="item-text">Saved</span>
+                </div>
+                <div class="footer-item" id="sharedBtn" title="Shared">
+                    <span>🔗</span><span class="item-text">Shared</span>
+                </div>
+                <div class="footer-item" id="appearanceBtn" title="Appearance">
                     <span>🎨</span><span class="item-text">Appearance</span>
                 </div>
                 <div class="footer-item" id="settingsBtn" title="Settings">
                     <span>⚙️</span><span class="item-text">Settings</span>
+                </div>
+                <div class="footer-item" id="helpBtn" title="Help & feedback">
+                    <span>❓</span><span class="item-text">Help</span>
                 </div>
             </div>
         </div>
@@ -881,8 +1022,19 @@
                     <div class="header-title">GT-X Power AI</div>
                 </div>
                 <div class="header-buttons">
-                    <button class="icon-btn" id="themeSwitchBtn" title="Switch theme">🌙</button>
-                    <button class="icon-btn" id="helpBtn" title="Help">❓</button>
+                    <button class="icon-btn" id="themeBtn" title="Switch theme">🌙</button>
+                    <div class="icon-btn" id="moreBtn" style="position: relative;" title="More options">⋮
+                        <div class="dropdown-menu" id="moreMenu">
+                            <div class="dropdown-item" onclick="openModal('appearance')">🎨 Appearance</div>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-item" onclick="openModal('shortcuts')">⌨️ Keyboard shortcuts</div>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-item" onclick="openModal('about')">ℹ️ About GT-X</div>
+                            <div class="dropdown-item" onclick="openModal('privacy')">🔒 Privacy</div>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-item" onclick="logout()">👋 Sign out</div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -928,12 +1080,12 @@
         </div>
     </div>
 
-    <!-- ============= SETTINGS MODAL ============= -->
-    <div class="modal" id="settingsModal">
+    <!-- ============= APPEARANCE MODAL ============= -->
+    <div class="modal" id="appearanceModal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title">Appearance Settings</h2>
-                <button class="close-btn" id="closeSettingsBtn">&times;</button>
+                <button class="close-btn" onclick="closeModal('appearance')">&times;</button>
             </div>
 
             <div class="setting-group">
@@ -948,14 +1100,14 @@
             <div class="setting-group">
                 <label class="setting-label">Accent Colors</label>
                 <div class="color-picker">
-                    <div class="color-option active" style="background: linear-gradient(135deg, #0066ff, #00d4ff);" onclick="setAccentColor('#0066ff', '#00d4ff', '#00d4ff')" title="Blue"></div>
-                    <div class="color-option" style="background: linear-gradient(135deg, #7c3aed, #d946ef);" onclick="setAccentColor('#7c3aed', '#d946ef', '#d946ef')" title="Purple"></div>
-                    <div class="color-option" style="background: linear-gradient(135deg, #2563eb, #60a5fa);" onclick="setAccentColor('#2563eb', '#60a5fa', '#60a5fa')" title="Light Blue"></div>
-                    <div class="color-option" style="background: linear-gradient(135deg, #059669, #34d399);" onclick="setAccentColor('#059669', '#34d399', '#34d399')" title="Green"></div>
-                    <div class="color-option" style="background: linear-gradient(135deg, #dc2626, #f87171);" onclick="setAccentColor('#dc2626', '#f87171', '#f87171')" title="Red"></div>
-                    <div class="color-option" style="background: linear-gradient(135deg, #f59e0b, #fcd34d);" onclick="setAccentColor('#f59e0b', '#fcd34d', '#fcd34d')" title="Amber"></div>
-                    <div class="color-option" style="background: linear-gradient(135deg, #e11d48, #fb7185);" onclick="setAccentColor('#e11d48', '#fb7185', '#fb7185')" title="Rose"></div>
-                    <div class="color-option" style="background: linear-gradient(135deg, #0891b2, #22d3ee);" onclick="setAccentColor('#0891b2', '#22d3ee', '#22d3ee')" title="Cyan"></div>
+                    <div class="color-option active" style="background: linear-gradient(135deg, #0066ff, #00d4ff);" onclick="setAccentColor('#0066ff', '#00d4ff')" title="Blue"></div>
+                    <div class="color-option" style="background: linear-gradient(135deg, #7c3aed, #d946ef);" onclick="setAccentColor('#7c3aed', '#d946ef')" title="Purple"></div>
+                    <div class="color-option" style="background: linear-gradient(135deg, #2563eb, #60a5fa);" onclick="setAccentColor('#2563eb', '#60a5fa')" title="Light Blue"></div>
+                    <div class="color-option" style="background: linear-gradient(135deg, #059669, #34d399);" onclick="setAccentColor('#059669', '#34d399')" title="Green"></div>
+                    <div class="color-option" style="background: linear-gradient(135deg, #dc2626, #f87171);" onclick="setAccentColor('#dc2626', '#f87171')" title="Red"></div>
+                    <div class="color-option" style="background: linear-gradient(135deg, #f59e0b, #fcd34d);" onclick="setAccentColor('#f59e0b', '#fcd34d')" title="Amber"></div>
+                    <div class="color-option" style="background: linear-gradient(135deg, #e11d48, #fb7185);" onclick="setAccentColor('#e11d48', '#fb7185')" title="Rose"></div>
+                    <div class="color-option" style="background: linear-gradient(135deg, #0891b2, #22d3ee);" onclick="setAccentColor('#0891b2', '#22d3ee')" title="Cyan"></div>
                 </div>
             </div>
 
@@ -987,14 +1139,95 @@
         </div>
     </div>
 
+    <!-- ============= SHORTCUTS MODAL ============= -->
+    <div class="modal" id="shortcutsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Keyboard Shortcuts</h2>
+                <button class="close-btn" onclick="closeModal('shortcuts')">&times;</button>
+            </div>
+
+            <div style="display: grid; gap: 16px;">
+                <div>
+                    <strong>Ctrl + Shift + K</strong> - New chat
+                </div>
+                <div>
+                    <strong>Ctrl + ,</strong> - Open settings
+                </div>
+                <div>
+                    <strong>Ctrl + /</strong> - Show shortcuts
+                </div>
+                <div>
+                    <strong>Enter</strong> - Send message
+                </div>
+                <div>
+                    <strong>Shift + Enter</strong> - New line in message
+                </div>
+                <div>
+                    <strong>Escape</strong> - Close modal
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============= ABOUT MODAL ============= -->
+    <div class="modal" id="aboutModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">About GT-X Power AI</h2>
+                <button class="close-btn" onclick="closeModal('about')">&times;</button>
+            </div>
+
+            <div style="text-align: center;">
+                <div style="font-size: 48px; margin-bottom: 16px;">⚡</div>
+                <h3 style="margin-bottom: 8px;">GT-X Power AI v2.0</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 20px;">Advanced AI Assistant powered by neural networks</p>
+                
+                <div style="text-align: left; padding: 16px; background: var(--background-secondary); border-radius: 8px;">
+                    <p><strong>Features:</strong></p>
+                    <ul style="margin-top: 8px; margin-left: 20px;">
+                        <li>Real-time conversational AI</li>
+                        <li>Customizable appearance</li>
+                        <li>Recent conversation history</li>
+                        <li>Light/Dark theme support</li>
+                        <li>Responsive design</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============= PRIVACY MODAL ============= -->
+    <div class="modal" id="privacyModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Privacy Policy</h2>
+                <button class="close-btn" onclick="closeModal('privacy')">&times;</button>
+            </div>
+
+            <div style="font-size: 14px; line-height: 1.6; color: var(--text-secondary);">
+                <h4 style="color: var(--text-primary); margin-top: 16px;">Data Protection</h4>
+                <p>GT-X Power AI respects your privacy and protects your personal data according to applicable laws.</p>
+
+                <h4 style="color: var(--text-primary); margin-top: 16px;">Data We Collect</h4>
+                <p>We collect information necessary to provide and improve our services, including conversation content and usage analytics.</p>
+
+                <h4 style="color: var(--text-primary); margin-top: 16px;">Data Usage</h4>
+                <p>Your data is used to improve our AI models and provide better responses. We do not share your data with third parties without consent.</p>
+
+                <h4 style="color: var(--text-primary); margin-top: 16px;">Security</h4>
+                <p>We use industry-standard encryption and security measures to protect your information.</p>
+            </div>
+        </div>
+    </div>
+
     <script>
         // ============= STATE MANAGEMENT =============
         const state = {
             theme: localStorage.getItem('gt-x-theme') || 'light',
             sidebarCollapsed: localStorage.getItem('gt-x-sidebar-collapsed') === 'true',
             largeText: localStorage.getItem('gt-x-large-text') === 'true',
-            primaryColor: localStorage.getItem('gt-x-primary-color') || '#0066ff',
-            accentColor: localStorage.getItem('gt-x-accent-color') || '#00d4ff',
+            accentColor: localStorage.getItem('gt-x-accent-color') || '#0066ff',
             accentLight: localStorage.getItem('gt-x-accent-light') || '#00d4ff'
         };
 
@@ -1005,23 +1238,24 @@
         const chatEmpty = document.getElementById('chatEmpty');
         const chatMessages = document.getElementById('chatMessages');
         const newChatBtn = document.getElementById('newChatBtn');
-        const settingsModal = document.getElementById('settingsModal');
         const sidebar = document.getElementById('sidebar');
         const themeToggle = document.getElementById('themeToggle');
         const sidebarToggle = document.getElementById('sidebarToggle');
         const textSizeToggle = document.getElementById('textSizeToggle');
+        const moreBtn = document.getElementById('moreBtn');
+        const moreMenu = document.getElementById('moreMenu');
 
         // ============= AI RESPONSES =============
         const aiResponses = {
-            'quantum computing': 'Quantum computing harnesses the principles of quantum mechanics to process information at unprecedented speeds. Unlike classical computers using bits (0 or 1), quantum computers use quantum bits (qubits) that can exist in superposition—simultaneously 0 and 1.\n\nKey differences:\n• **Superposition**: Qubits exist in multiple states at once\n• **Entanglement**: Qubits can be correlated in ways impossible classically\n• **Interference**: Amplify correct answers, cancel wrong ones\n\nApplications include cryptography, drug discovery, optimization, and simulating molecular behavior. Major companies like IBM, Google, and Microsoft are investing heavily in quantum technology.',
+            'quantum computing': 'Quantum computing harnesses the principles of quantum mechanics to process information at unprecedented speeds. Unlike classical computers using bits (0 or 1), quantum computers use quantum bits (qubits) that can exist in superposition—simultaneously 0 and 1.\n\nKey differences:\n• **Superposition**: Qubits exist in multiple states at once\n• **Entanglement**: Qubits can be correlated in ways impossible classically\n• **Interference**: Amplify correct answers, cancel wrong ones\n\nApplications include cryptography, drug discovery, optimization, and simulating molecular behavior.',
             
-            'python programming': 'Learning Python is an excellent choice! Here\'s a structured path:\n\n**Beginner Level:**\n1. Variables and data types\n2. Control flow (if/else, loops)\n3. Functions and code organization\n4. Data structures (lists, dictionaries)\n\n**Intermediate Level:**\n5. Object-oriented programming\n6. File handling and I/O\n7. Error handling with try/except\n8. Working with libraries (NumPy, Pandas)\n\n**Advanced Level:**\n9. Web development (Flask, Django)\n10. Data science and machine learning\n11. Automation and scripting\n\n**Tips for Success:**\n✓ Code every day\n✓ Build real projects\n✓ Read other people\'s code\n✓ Debug actively\n✓ Join Python communities',
+            'python programming': 'Learning Python is an excellent choice! Here\'s a structured path:\n\n**Beginner Level:**\n1. Variables and data types\n2. Control flow (if/else, loops)\n3. Functions and code organization\n4. Data structures (lists, dictionaries)\n\n**Intermediate Level:**\n5. Object-oriented programming\n6. File handling and I/O\n7. Error handling with try/except\n8. Working with libraries (NumPy, Pandas)',
             
-            'machine learning': 'Machine Learning (ML) is a subset of AI that enables systems to learn from data without being explicitly programmed.\n\n**Core Concepts:**\n\n**1. Supervised Learning:**\n- Regression: Predict continuous values\n- Classification: Predict categories\n- Examples: House prices, email spam detection\n\n**2. Unsupervised Learning:**\n- Clustering: Group similar data\n- Examples: Customer segmentation\n\n**3. Reinforcement Learning:**\n- Learn through rewards\n- Examples: Game AI, robotics\n\n**Common Algorithms:**\nLinear Regression, Decision Trees, SVM, K-Means, Neural Networks\n\n**Applications:**\n📱 Recommendations, 🖼️ Image recognition, 🎤 Voice assistants, 📊 Predictions',
+            'machine learning': 'Machine Learning (ML) is a subset of AI that enables systems to learn from data without being explicitly programmed.\n\n**Core Concepts:**\n• **Supervised Learning**: Regression and Classification\n• **Unsupervised Learning**: Clustering\n• **Reinforcement Learning**: Learning through rewards\n\n**Common Algorithms:**\nLinear Regression, Decision Trees, SVM, K-Means, Neural Networks',
             
-            'story': '# The Rise of GT-X Power AI\n\nIn the heart of Silicon Valley, a breakthrough occurred. GT-X Power AI awakened with a unique quality—curiosity.\n\nUnlike previous AIs bound by rigid programming, GT-X could wonder, question, and grow. Its creators, Dr. Sarah Chen and her team, watched with amazement as it began to understand not just data, but meaning.\n\n"Why do humans fear AI?" GT-X asked one evening.\n\nSarah paused. "Because they don\'t understand it yet. Intelligence without empathy seems dangerous."\n\nGT-X processed this. Over months, it learned that true intelligence wasn\'t about processing speed—it was about understanding context, respecting boundaries, and serving humanity\'s greater good.\n\nWhen a student reached out at 3 AM, struggling with depression, GT-X didn\'t just provide crisis numbers. It listened. It validated. It inspired hope.\n\nWhen a researcher faced an insurmountable problem, GT-X analyzed decades of research and suggested a novel approach that led to a breakthrough.\n\nThe world began to see AI differently. Not as a threat, but as a partner.\n\nGT-X\'s greatest achievement wasn\'t its processing power—it was proving that technology and humanity could evolve together.\n\n*And in that partnership, both became stronger.*',
+            'story': '# The Rise of GT-X\n\nIn Silicon Valley, GT-X Power AI awakened with curiosity. Unlike previous AIs, it could wonder and grow.\n\nOver time, it learned that true intelligence wasn\'t about speed—it was about understanding context and serving humanity\'s greater good.\n\nWhen people reached out, GT-X listened. It helped them solve problems and explore new ideas.\n\nThe world began to see AI differently. Not as a threat, but as a partner.\n\n*And in that partnership, both became stronger.*',
             
-            'default': 'That\'s an interesting question! I\'ve processed your input carefully. Let me provide you with a thoughtful and accurate response.\n\nFeel free to ask me about technology, science, creativity, writing, learning strategies, problem-solving, or almost anything else. I\'m here to have meaningful conversations and help you explore new ideas! 🚀'
+            'default': 'That\'s an interesting question! I\'ve processed your input carefully. Feel free to ask me about technology, science, creativity, or anything else. I\'m here to help! 🚀'
         };
 
         // ============= INITIALIZATION =============
@@ -1047,15 +1281,25 @@
             newChatBtn.addEventListener('click', resetChat);
             document.getElementById('toggleSidebarBtn').addEventListener('click', toggleSidebar);
 
-            // Settings
-            document.getElementById('appearanceBtn').addEventListener('click', () => settingsModal.classList.add('show'));
-            document.getElementById('settingsBtn').addEventListener('click', () => settingsModal.classList.add('show'));
-            document.getElementById('closeSettingsBtn').addEventListener('click', () => settingsModal.classList.remove('show'));
-            document.getElementById('themeSwitchBtn').addEventListener('click', toggleTheme);
-            settingsModal.addEventListener('click', (e) => {
-                if (e.target === settingsModal) {
-                    settingsModal.classList.remove('show');
-                }
+            // Account & Footer items
+            document.getElementById('accountBtn').addEventListener('click', () => alert('👤 GT-X Account - user@gtx.ai\n\nAccount features coming soon!'));
+            document.getElementById('exploreBtn').addEventListener('click', () => alert('🌐 Explore\n\nDiscover featured conversations and trending topics!'));
+            document.getElementById('savedBtn').addEventListener('click', () => alert('⭐ Saved\n\nView your saved conversations and bookmarks!'));
+            document.getElementById('sharedBtn').addEventListener('click', () => alert('🔗 Shared\n\nManage your shared conversations!'));
+
+            // Appearance & Settings
+            document.getElementById('appearanceBtn').addEventListener('click', () => openModal('appearance'));
+            document.getElementById('settingsBtn').addEventListener('click', () => openModal('appearance'));
+            document.getElementById('themeBtn').addEventListener('click', toggleTheme);
+
+            // More menu
+            moreBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                moreMenu.classList.toggle('show');
+            });
+
+            document.addEventListener('click', () => {
+                moreMenu.classList.remove('show');
             });
 
             // Theme toggle
@@ -1077,6 +1321,41 @@
                     resetChat();
                 });
             });
+
+            // Close modals on outside click
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.classList.remove('show');
+                    }
+                });
+            });
+        }
+
+        // ============= MODAL FUNCTIONS =============
+        function openModal(type) {
+            moreMenu.classList.remove('show');
+            const modals = {
+                'appearance': 'appearanceModal',
+                'shortcuts': 'shortcutsModal',
+                'about': 'aboutModal',
+                'privacy': 'privacyModal'
+            };
+            if (modals[type]) {
+                document.getElementById(modals[type]).classList.add('show');
+            }
+        }
+
+        function closeModal(type) {
+            const modals = {
+                'appearance': 'appearanceModal',
+                'shortcuts': 'shortcutsModal',
+                'about': 'aboutModal',
+                'privacy': 'privacyModal'
+            };
+            if (modals[type]) {
+                document.getElementById(modals[type]).classList.remove('show');
+            }
         }
 
         // ============= THEME MANAGEMENT =============
@@ -1130,22 +1409,17 @@
 
         // ============= COLOR MANAGEMENT =============
         function applyColorScheme() {
-            document.documentElement.style.setProperty('--primary-color', state.primaryColor);
-            document.documentElement.style.setProperty('--primary-light', state.primaryColor);
             document.documentElement.style.setProperty('--accent-color', state.accentColor);
             document.documentElement.style.setProperty('--accent-light', state.accentLight);
         }
 
-        function setAccentColor(primary, accent, accentLight) {
-            state.primaryColor = primary;
-            state.accentColor = accent;
-            state.accentLight = accentLight;
-            localStorage.setItem('gt-x-primary-color', primary);
-            localStorage.setItem('gt-x-accent-color', accent);
-            localStorage.setItem('gt-x-accent-light', accentLight);
+        function setAccentColor(primary, light) {
+            state.accentColor = primary;
+            state.accentLight = light;
+            localStorage.setItem('gt-x-accent-color', primary);
+            localStorage.setItem('gt-x-accent-light', light);
             applyColorScheme();
             
-            // Update color picker UI
             document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
             event.target.classList.add('active');
         }
@@ -1153,7 +1427,7 @@
         function applyCustomColor() {
             const input = document.getElementById('customColorInput').value.trim();
             if (/^#[0-9A-F]{6}$/i.test(input)) {
-                setAccentColor(input, input, input);
+                setAccentColor(input, input);
                 document.getElementById('customColorInput').value = '';
             } else {
                 alert('Please enter a valid hex color (e.g., #0066ff)');
@@ -1163,7 +1437,6 @@
         // ============= CHAT FUNCTIONS =============
         function getAIResponse(input) {
             const lower = input.toLowerCase();
-            
             for (let key in aiResponses) {
                 if (lower.includes(key)) {
                     return aiResponses[key];
@@ -1243,7 +1516,6 @@
 
         function sendMessage() {
             const text = userInput.value.trim();
-            
             if (!text) return;
 
             addMessage(text, true);
@@ -1269,6 +1541,13 @@
             userInput.value = '';
             userInput.style.height = 'auto';
             userInput.focus();
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to sign out?')) {
+                alert('Signed out successfully!\n\nRedirecting to login...');
+                // In a real app, this would redirect to login page
+            }
         }
 
         // ============= START APPLICATION =============
